@@ -1,5 +1,3 @@
-TRACK_ID=PS02
-
 # ClaimLens AI
 
 ## What the project does
