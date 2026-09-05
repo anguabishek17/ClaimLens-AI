@@ -1,0 +1,194 @@
+[
+  {
+    "clause_id": "C-01",
+    "title": "Accidental Loss and Damage Coverage",
+    "text": "The insurer will indemnify the policyholder against sudden, accidental loss or damage to the insured vehicle caused by collision, overturning, or external violent impact during the policy period.",
+    "category": "accident_coverage",
+    "conditions": ["Vehicle must be used within geographical boundaries specified in policy schedule.", "Damage must arise from an active accidental impact."],
+    "supporting_evidence_requirements": ["Claim Form", "Detailed Repair Estimate", "Customer Incident Statement"]
+  },
+  {
+    "clause_id": "C-02",
+    "title": "Theft and Total Burglary Coverage",
+    "text": "In the event of total theft or burglary of the insured vehicle, the insurer will pay the Insured Declared Value (IDV) minus applicable deductible, provided prompt notification and police FIR are submitted.",
+    "category": "theft_coverage",
+    "conditions": ["Ignition keys must not have been negligently left inside unattended vehicle.", "Immediate notification within 48 hours to police and insurer."],
+    "supporting_evidence_requirements": ["Claim Form", "Police First Information Report (FIR)", "RTO Non-Traceable Certificate"]
+  },
+  {
+    "clause_id": "C-03",
+    "title": "Fire, Explosion, and Lightning Damage",
+    "text": "Direct loss or damage caused by fire, spontaneous combustion, self-ignition, lightning, or explosion is covered under own-damage coverage.",
+    "category": "fire_coverage",
+    "conditions": ["Fire must not result from illegal performance modifications or electrical overloading."],
+    "supporting_evidence_requirements": ["Fire Brigade Report or Police General Diary Entry", "Garage Technical Inspection Report"]
+  },
+  {
+    "clause_id": "C-04",
+    "title": "Natural Calamities and Disasters",
+    "text": "Damage resulting from flood, typhoon, hurricane, storm, tempest, inundation, cyclone, earthquake, or landslide is indemnified subject to policy limits.",
+    "category": "calamity_coverage",
+    "conditions": ["Engine hydrostatic lock caused by restarting engine in deep water is excluded unless hydro-lock add-on cover is active."],
+    "supporting_evidence_requirements": ["Claim Form", "Repair Estimate noting flood/water line height", "Photographic evidence"]
+  },
+  {
+    "clause_id": "C-05",
+    "title": "Third-Party Liability Exclusions",
+    "text": "Own-damage claims do not cover liability incurred to third-party property or persons unless specifically processed under Section III (Third-Party Legal Liability).",
+    "category": "third_party_exclusion",
+    "conditions": ["Claims for damage to policyholder's own vehicle cannot include third-party compensation demands without court decree or legal award."],
+    "supporting_evidence_requirements": ["Separate Legal Notice / Third-Party Claim Documentation"]
+  },
+  {
+    "clause_id": "C-06",
+    "title": "Intoxication and Drunk Driving Exclusion",
+    "text": "The insurer is not liable for any loss or damage incurred while the driver operating the vehicle is under the influence of intoxicating liquor, alcohol, or narcotic drugs.",
+    "category": "drunk_driving_exclusion",
+    "conditions": ["Blood alcohol content exceeding legal permissible limits immediately repudiates the claim."],
+    "supporting_evidence_requirements": ["Medical Officer Report / Breathalyzer test record / FIR notes"]
+  },
+  {
+    "clause_id": "C-07",
+    "title": "Valid Driving Licence Requirement",
+    "text": "Any loss or damage sustained while the vehicle is driven by any person who does not hold a valid, effective driving licence or learner's permit appropriate for the vehicle class is strictly excluded.",
+    "category": "driving_licence",
+    "conditions": ["Driver must possess an active driving licence valid on the exact date and time of loss."],
+    "supporting_evidence_requirements": ["Copy of Driver's Licence", "Claim Form driver details"]
+  },
+  {
+    "clause_id": "C-08",
+    "title": "Claim Reporting Window",
+    "text": "The policyholder must notify the insurer within 7 calendar days for accidental damage claims, and within 48 hours for vehicle theft claims, unless justifiable reasons prevent timely notice.",
+    "category": "claim_window",
+    "conditions": ["Delay exceeding reporting limits without documented medical or emergency justification may result in claim rejection."],
+    "supporting_evidence_requirements": ["Incident Date proof", "Claim Filing Date proof"]
+  },
+  {
+    "clause_id": "C-09",
+    "title": "Mandatory Claim Documentation",
+    "text": "Every claim submission must contain a minimum set of 3 mandatory evidence items: (1) Completed Claim Form, (2) Detailed Repair Estimate or Police FIR, and (3) Customer Incident Description.",
+    "category": "required_documents",
+    "conditions": ["Incomplete submissions will be held under 'REQUEST INFORMATION' status until missing items are supplied."],
+    "supporting_evidence_requirements": ["Claim Form", "Repair Estimate or FIR", "Customer Incident Description"]
+  },
+  {
+    "clause_id": "C-10",
+    "title": "Police FIR Requirement for Theft and Malicious Damage",
+    "text": "A certified copy of the Police First Information Report (FIR) is compulsory for all claims involving theft, burglary, malicious damage, or severe third-party involvement.",
+    "category": "fir_requirement",
+    "conditions": ["FIR must be filed at the police station having local jurisdiction over the incident spot."],
+    "supporting_evidence_requirements": ["Certified Copy of Police FIR with Police Station Stamp"]
+  },
+  {
+    "clause_id": "C-11",
+    "title": "Itemized Repair Estimate Requirements",
+    "text": "For accidental damage, an itemized repair estimate from an authorized garage detailing parts replacement costs, labor charges, and GST invoice is mandatory prior to repair authorization.",
+    "category": "repair_estimate_requirement",
+    "conditions": ["Unapproved repairs commenced prior to surveyor inspection may be repudiated or subjected to depreciation penalties."],
+    "supporting_evidence_requirements": ["Itemized Garage Repair Estimate with Breakup"]
+  },
+  {
+    "clause_id": "C-12",
+    "title": "Insured Declared Value (IDV) Limit",
+    "text": "The maximum liability of the insurer for any own-damage claim or total loss is capped strictly at the Insured Declared Value (IDV) specified in the policy schedule.",
+    "category": "idv_limit",
+    "conditions": ["Claimed repair amounts exceeding IDV will be capped or settled on Constructive Total Loss basis."],
+    "supporting_evidence_requirements": ["Policy Schedule displaying IDV", "Repair Estimate total"]
+  },
+  {
+    "clause_id": "C-13",
+    "title": "Standard Compulsory Deductible",
+    "text": "Every own-damage claim settlement is subject to a compulsory excess deductible of ₹1,000 for two-wheelers and ₹2,000 for private cars, deductible from the final payout.",
+    "category": "deductible",
+    "conditions": ["Compulsory deductible cannot be waived under standard policy terms."],
+    "supporting_evidence_requirements": ["Policy Schedule"]
+  },
+  {
+    "clause_id": "C-14",
+    "title": "Constructive Total Loss Condition",
+    "text": "A vehicle will be considered a Constructive Total Loss (CTL) if the aggregate cost of retrieval and repair exceeds 75% of the Insured Declared Value (IDV).",
+    "category": "total_loss",
+    "conditions": ["Settlement will be executed against transfer of vehicle registration and salvage keys to insurer."],
+    "supporting_evidence_requirements": ["Surveyor CTL Report", "Garage Estimate exceeding 75% IDV"]
+  },
+  {
+    "clause_id": "C-15",
+    "title": "Partial Damage Depreciation Rates",
+    "text": "For partial damage repairs, standard depreciation rates shall apply: Rubber/Nylon/Plastic parts (50%), Glass parts (0%), Fibreglass (30%), Metal parts (0% to 50% depending on vehicle age).",
+    "category": "partial_damage",
+    "conditions": ["Depreciation applies unless Zero Depreciation add-on rider is active."],
+    "supporting_evidence_requirements": ["Itemized Parts Replacement List"]
+  },
+  {
+    "clause_id": "C-16",
+    "title": "Excluded Performance Modifications and CNG/LPG Conversions",
+    "text": "Damage to unauthorized speed modifications, unapproved CNG/LPG kits, or non-factory accessories not specified in the policy schedule is excluded from coverage.",
+    "category": "excluded_modifications",
+    "conditions": ["CNG/LPG retrofitting must be endorsed on RC and policy schedule prior to loss."],
+    "supporting_evidence_requirements": ["RC Copy showing endorsement", "Policy Schedule Add-on list"]
+  },
+  {
+    "clause_id": "C-17",
+    "title": "Unauthorized Commercial or Illegal Vehicle Use",
+    "text": "Coverage is void if the private vehicle was used for commercial hire, racing, speed testing, illegal haulage, or any criminal activity at the time of loss.",
+    "category": "unauthorized_use",
+    "conditions": ["Private car or two-wheeler policy does not cover fare-paying passenger transit."],
+    "supporting_evidence_requirements": ["Customer Statement", "Police Investigation Report"]
+  },
+  {
+    "clause_id": "C-18",
+    "title": "Lapse and Policy Expiry",
+    "text": "No claim shall be payable if the date of incident occurs outside the active policy inception and expiry timestamps specified in the policy schedule.",
+    "category": "policy_expiry",
+    "conditions": ["Policy must be active and premium fully paid at exact date of incident."],
+    "supporting_evidence_requirements": ["Policy Period Schedule", "Incident Date"]
+  },
+  {
+    "clause_id": "C-19",
+    "title": "Vehicle Identity and Chassis Verification",
+    "text": "The registration number, chassis number, and engine number on all submitted documents (Claim Form, FIR, Repair Bill) must match the vehicle records exactly.",
+    "category": "vehicle_identity",
+    "conditions": ["Discrepancies in registration numbers across documents constitute evidence mismatch."],
+    "supporting_evidence_requirements": ["Claim Form Reg #", "FIR Reg #", "Repair Bill Reg #"]
+  },
+  {
+    "clause_id": "C-20",
+    "title": "Misrepresentation and Misleading Information",
+    "text": "If any submitted evidence or statement contains material misrepresentations or false dates, the claim will be escalated to a human investigator without alleging fraud.",
+    "category": "fraud_misrepresentation",
+    "conditions": ["Contradictions across documents trigger mandatory escalation for manual review."],
+    "supporting_evidence_requirements": ["Cross-Document Consistency Audit Findings"]
+  },
+  {
+    "clause_id": "C-21",
+    "title": "Salvage Property Rights",
+    "text": "Upon payment of CTL or total loss claim, the insurer retains legal ownership rights over the damaged vehicle salvage.",
+    "category": "salvage",
+    "conditions": ["Policyholder must surrender original RC book and signed Form 29/30."],
+    "supporting_evidence_requirements": ["RTO Transfer Forms", "Original RC Book"]
+  },
+  {
+    "clause_id": "C-22",
+    "title": "Mandatory Spot Inspection and Investigation",
+    "text": "The insurer reserves the right to order an independent spot inspection or surveyor audit for claims exceeding ₹50,000 or involving physical injury.",
+    "category": "investigation",
+    "conditions": ["Surveyor must inspect vehicle before dismantling or starting repairs."],
+    "supporting_evidence_requirements": ["Surveyor Inspection Report"]
+  },
+  {
+    "clause_id": "C-23",
+    "title": "Mandatory Human Investigator Escalation",
+    "text": "Any claim exhibiting cross-document contradictions (such as conflicting incident dates, registration numbers, or damage locations) MUST be escalated to a human investigator.",
+    "category": "human_escalation",
+    "conditions": ["Automated systems must flag conflicting records and refrain from final autonomous decisioning."],
+    "supporting_evidence_requirements": ["Contradiction Matrix Report"]
+  },
+  {
+    "clause_id": "C-24",
+    "title": "Handling of Incomplete Information",
+    "text": "Claims lacking essential evidence (such as missing repair bills or incomplete claim forms) must be placed on 'REQUEST INFORMATION' status.",
+    "category": "missing_information",
+    "conditions": ["System must specify exact missing items required from claimant."],
+    "supporting_evidence_requirements": ["Document Completeness Checklist"]
+  }
+]

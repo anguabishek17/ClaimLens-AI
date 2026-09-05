@@ -1,0 +1,28 @@
+[
+  {
+    "id": "SAMPLE-01",
+    "name": "Standard Car Front Bumper Collision (Clear Approval)",
+    "vehicle_type": "CAR",
+    "claim_type": "ACCIDENT",
+    "incident_date": "2026-09-01",
+    "claim_date": "2026-09-03",
+    "insured_declared_value": 750000,
+    "claimed_amount": 32000,
+    "claim_form": "Vehicle Reg: DL-01-AB-1234. Model: Hyundai i20. Date of incident: 2026-09-01. Driver had valid DL: DL-987654321. Minor collision with median barrier causing front bumper and headlight crack. Estimated repair: Rs. 32,000.",
+    "evidence_doc": "Authorized Service Center Estimate. Vehicle DL-01-AB-1234. Date: 2026-09-02. Replaced parts: Front bumper assembly (Rs 18,000), Right headlight unit (Rs 8,500), Labor & Painting charges (Rs 5,500). Total: Rs. 32,000.",
+    "incident_description": "On 2026-09-01 evening around 8 PM, I swerved to avoid a stray animal near Sector 18 and made contact with the road divider. The front bumper was damaged. I informed the insurer within 48 hours."
+  },
+  {
+    "id": "SAMPLE-02",
+    "name": "Two-Wheeler Date Contradiction (Needs Escalation)",
+    "vehicle_type": "TWO_WHEELER",
+    "claim_type": "ACCIDENT",
+    "incident_date": "2026-08-20",
+    "claim_date": "2026-08-22",
+    "insured_declared_value": 90000,
+    "claimed_amount": 14500,
+    "claim_form": "Vehicle Reg: MH-12-XY-9999. Model: Honda Activa. Incident date recorded as 2026-08-20. Skid on wet asphalt causing side panel scratches and handle misalignment. Claimed: Rs. 14,500.",
+    "evidence_doc": "Garage repair bill dated 2026-08-10 for vehicle MH-12-XY-9999. Repair of front fork, handle bar and side panel completed on 2026-08-11. Total Rs. 14,500.",
+    "incident_description": "I had a skid on the evening of 2026-08-20 due to rain. The bike sustained side damage."
+  }
+]

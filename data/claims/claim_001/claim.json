@@ -1,0 +1,15 @@
+{
+  "claim_id": "CLM-001",
+  "name": "Standard Valid Accident Claim (Car)",
+  "status_expected": "APPROVE",
+  "vehicle_type": "CAR",
+  "claim_type": "ACCIDENT",
+  "incident_date": "2026-09-01",
+  "claim_date": "2026-09-03",
+  "insured_declared_value": 750000.0,
+  "claimed_amount": 32000.0,
+  "claim_form_file": "claim_form.txt",
+  "incident_description_file": "incident_description.txt",
+  "evidence_doc_file": "repair_estimate.txt",
+  "fir_file": null
+}

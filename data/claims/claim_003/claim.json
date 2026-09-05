@@ -1,0 +1,15 @@
+{
+  "claim_id": "CLM-003",
+  "name": "Difficult Claim with Multi-Document Contradictions",
+  "status_expected": "ESCALATE",
+  "vehicle_type": "CAR",
+  "claim_type": "ACCIDENT",
+  "incident_date": "2026-08-25",
+  "claim_date": "2026-08-27",
+  "insured_declared_value": 550000.0,
+  "claimed_amount": 45000.0,
+  "claim_form_file": "claim_form.txt",
+  "incident_description_file": "incident_description.txt",
+  "evidence_doc_file": "repair_estimate.txt",
+  "fir_file": null
+}

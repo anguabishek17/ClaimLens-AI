@@ -1,0 +1,18 @@
+MOTOR INSURANCE CLAIM FORM
+Claim Reference: CLM-2026-003
+Vehicle Type: Private Car
+Registration Number: MH-12-AB-1234
+Make / Model: Maruti Suzuki Swift ZXi
+Insured Declared Value (IDV): Rs. 5,50,000
+Policy Number: POL-55443322-CAR
+
+INCIDENT & DRIVER DETAILS:
+Date of Incident: 2026-08-25
+Time of Incident: 16:30 IST
+Date of Claim Filing: 2026-08-27
+Driver Name: Vikram Patil
+Driver Licence Number: MH-12-2019008812
+
+DAMAGE REPORTED:
+Front bumper collision and front radiator grill damage sustained while parking inside garage.
+Claimed Amount: Rs. 45,000.

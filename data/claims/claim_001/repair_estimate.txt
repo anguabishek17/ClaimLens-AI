@@ -1,0 +1,17 @@
+AUTHORIZED SERVICE CENTER REPAIR ESTIMATE
+Estimate No: EST-2026-8891
+Date: 2026-09-02
+Vehicle Reg No: DL-01-AB-1234
+Model: Hyundai i20
+
+ITEMIZED PARTS AND LABOR BREAKDOWN:
+1. Front Bumper Outer Cover Assembly: Rs. 18,000.00
+2. Headlamp Unit Right (LED): Rs. 8,500.00
+3. Front Grill & Mounting Clips: Rs. 1,500.00
+4. Painting & Bodywork Labor: Rs. 4,000.00
+---------------------------------------------------
+SUBTOTAL: Rs. 32,000.00
+GST (18% included): Rs. 4,881.35
+TOTAL ESTIMATED COST: Rs. 32,000.00
+
+Inspected and authorized by Senior Service Inspector, Noida Hyundai.

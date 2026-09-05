@@ -1,0 +1,15 @@
+{
+  "claim_id": "CLM-002",
+  "name": "Theft Claim with Missing Police FIR (Two-Wheeler)",
+  "status_expected": "REQUEST INFORMATION",
+  "vehicle_type": "TWO_WHEELER",
+  "claim_type": "THEFT",
+  "incident_date": "2026-08-28",
+  "claim_date": "2026-08-30",
+  "insured_declared_value": 85000.0,
+  "claimed_amount": 85000.0,
+  "claim_form_file": "claim_form.txt",
+  "incident_description_file": "incident_description.txt",
+  "evidence_doc_file": "repair_estimate.txt",
+  "fir_file": null
+}

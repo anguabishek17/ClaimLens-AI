@@ -1,0 +1,19 @@
+MOTOR INSURANCE CLAIM FORM
+Claim Reference: CLM-2026-001
+Vehicle Type: Private Car
+Registration Number: DL-01-AB-1234
+Make / Model: Hyundai i20 (2024 Model)
+Insured Declared Value (IDV): Rs. 7,50,000
+Policy Number: POL-99887766-CAR
+
+INCIDENT & DRIVER DETAILS:
+Date of Incident: 2026-09-01
+Time of Incident: 20:15 IST
+Date of Claim Filing: 2026-09-03
+Driver Name: Rajesh Sharma
+Driver Licence Number: DL-987654321 (Valid until 2030-10-15)
+Incident Location: Sector 18, Noida Expressway, UP
+
+DAMAGE REPORTED:
+Front bumper plastic cracked, right headlight assembly smashed due to swerving into road divider barrier to avoid stray animal.
+Estimated Repair Amount: Rs. 32,000.

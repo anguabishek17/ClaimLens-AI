@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClaimLens AI — Insurance Claims Evidence Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  
+  <aside class="sidebar">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <circle cx="12" cy="11" r="3"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+      ClaimLens AI
+    </div>
+    <ul class="nav-links">
+      <li class="nav-item">Dashboard</li>
+      <li class="nav-item active">Claims</li>
+      <li class="nav-item">Evidence</li>
+      <li class="nav-item">Policy</li>
+      <li class="nav-item">Settings</li>
+    </ul>
+  </aside>
+
+  <main class="main">
+    <header class="header">
+      <h1>Claims Evidence Review</h1>
+      <div class="claim-selector">
+        <label for="claim-select" style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Select Claim</label>
+        <select id="claim-select">
+          <option value="001">Claim 001 — Normal</option>
+          <option value="002">Claim 002 — Missing Documents</option>
+          <option value="003">Claim 003 — Contradiction</option>
+        </select>
+        <button id="btn-load-claim" class="btn">Load Claim</button>
+      </div>
+    </header>
+
+    <div id="error-container" class="error-state hidden"></div>
+
+    <div id="results-container" class="hidden">
+      <!-- Overview Card -->
+      <section class="card">
+        <h2>Claim Overview</h2>
+        <div class="overview-grid">
+          <div class="overview-item">
+            <span class="overview-label">Claim ID</span>
+            <span class="overview-value" id="overview-id">-</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Customer</span>
+            <span class="overview-value" id="overview-customer">Vikram Patil</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Vehicle</span>
+            <span class="overview-value" id="overview-vehicle">-</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Incident Type</span>
+            <span class="overview-value" id="overview-incident">-</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Claim Amount</span>
+            <span class="overview-value" id="overview-amount">-</span>
+          </div>
+          <div class="overview-item">
+            <span class="overview-label">Policy Status</span>
+            <span class="overview-value" style="color: var(--status-pass);">Active</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-grid">
+        <!-- Evidence Status -->
+        <section class="card">
+          <h2>1. Evidence Status</h2>
+          <div class="evidence-list" id="evidence-list">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+
+        <!-- Policy Checks -->
+        <section class="card">
+          <h2>2. Policy Checks</h2>
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th>Rule</th>
+                <th>Status</th>
+                <th>Finding</th>
+                <th>Policy Clause</th>
+              </tr>
+            </thead>
+            <tbody id="policy-checks-body">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Contradictions -->
+        <section class="card" id="contradictions-section">
+          <h2>3. Contradictions</h2>
+          <div id="contradictions-list">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+
+        <!-- Findings -->
+        <section class="card">
+          <h2>4. Findings</h2>
+          <div id="findings-list">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+
+        <!-- Recommendation -->
+        <section class="card">
+          <h2>5. Recommendation</h2>
+          <div id="recommendation-container">
+            <div class="rec-large" id="rec-title"></div>
+            <div class="rec-details" id="rec-summary"></div>
+            <div class="rec-details" id="rec-clauses" style="margin-top: 12px; font-weight: 500;"></div>
+          </div>
+          
+          <div id="human-review-container" class="human-review hidden">
+            <div style="font-weight: 700; font-size: 16px;">Human investigator review required</div>
+            <div id="human-review-reason"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+    
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <div>Running Deterministic Rules & AI Analysis...</div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

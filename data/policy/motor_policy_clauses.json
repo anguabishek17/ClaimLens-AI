@@ -1,0 +1,50 @@
+[
+  {
+    "clause_id": "SEC-1.1",
+    "section": "Section I: Loss of or Damage to the Vehicle",
+    "title": "Accidental External Means",
+    "text": "The Company will indemnify the insured against loss or damage to the vehicle insured and/or its accessories whilst thereon by accidental external means.",
+    "default_impact": "SUPPORTS",
+    "summary": "Covers damage caused by collision or overturn by accidental external means."
+  },
+  {
+    "clause_id": "SEC-1.2",
+    "section": "Section I: Loss of or Damage to the Vehicle",
+    "title": "Loss by Burglary, Housebreaking or Theft",
+    "text": "The Company will indemnify the insured against loss or damage to the vehicle insured by burglary, housebreaking or theft, provided immediate notice is given to the Police with an FIR lodged.",
+    "default_impact": "SUPPORTS",
+    "summary": "Covers total or partial theft of vehicle subject to mandatory FIR."
+  },
+  {
+    "clause_id": "SEC-2.1",
+    "section": "Section II: General Exclusions",
+    "title": "Intoxication and Substance Use",
+    "text": "The Company shall not be liable to make any payment in respect of any accidental loss or damage suffered whilst the person driving is under the influence of intoxicating liquor or drugs.",
+    "default_impact": "BLOCKS",
+    "summary": "Excludes damages caused when driving under the influence."
+  },
+  {
+    "clause_id": "SEC-2.2",
+    "section": "Section II: General Exclusions",
+    "title": "Valid Driving License Requirement",
+    "text": "Any claim arising out of any accident whilst the vehicle was being driven by any person without holding an effective driving license to drive the vehicle shall be repudiated.",
+    "default_impact": "BLOCKS",
+    "summary": "Requires driver to hold a valid, unexpired driving license at time of incident."
+  },
+  {
+    "clause_id": "SEC-3.1",
+    "section": "Section III: Basis of Settlement",
+    "title": "Insured Declared Value (IDV)",
+    "text": "The Insured Declared Value (IDV) shall be treated as the Maximum Sum Insured which is fixed at the commencement of each policy period for the insured vehicle. In the event of total loss / constructive total loss, liability shall not exceed the IDV.",
+    "default_impact": "CONDITIONAL",
+    "summary": "Maximum compensation capped at Insured Declared Value."
+  },
+  {
+    "clause_id": "SEC-4.1",
+    "section": "Section IV: Conditions & Notice of Claim",
+    "title": "Notice of Claim and Time Window",
+    "text": "Notice of any claim shall be given to the Company immediately upon the occurrence of any accidental loss or damage, and in the event of any claim and thereafter the insured shall give all such information and assistance as the Company shall require within 7 days for accident and 48 hours for theft.",
+    "default_impact": "SUPPORTS",
+    "summary": "Mandatory claim reporting window: 7 days for accident, 48 hours for theft."
+  }
+]
