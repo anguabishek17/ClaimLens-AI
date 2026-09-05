@@ -1,86 +1,258 @@
 # ClaimLens AI
+## Insurance Claims Evidence Review Assistant
 
-## What the project does
-ClaimLens AI is a dual-engine reasoning system designed to automatically audit motor insurance claims. It reads and extracts information from unstructured claim forms, repair estimates, and First Information Reports (FIR). It then evaluates the data using strict deterministic policy rules and a semantic AI evaluation pipeline (Gemini RAG) to detect contradictions and verify evidence completeness. The platform automatically outputs recommendations to either APPROVE, REJECT, REQUEST INFORMATION, or ESCALATE to a human investigator.
+ClaimLens AI is a dual-engine reasoning system designed to automatically audit motor insurance claims by combining deterministic rules and semantic AI evaluation.
 
-## Problem Statement
-Insurance claim verification is historically a manual, slow, and error-prone process. The challenge was to build an intelligent assistant that cross-references user-submitted claim documents against the official policy clauses to surface discrepancies and ensure all critical documentation is available, drastically reducing manual review times while ensuring fairness. 
+## 1. Overview
+ClaimLens AI helps review motor insurance claims by analyzing submitted claim documents, checking policy rules, identifying missing evidence, detecting contradictions, and generating a structured review recommendation. The platform is designed to assist investigators rather than replace human decision-making, ensuring a thorough and fair evaluation of every claim.
 
-## Architecture
-The system employs a strict separation of concerns:
-1. **Document Extraction:** Parses semi-structured text.
-2. **Retrieval-Augmented Generation (RAG):** Local vector search over policy documents using `gemini-embedding-001`.
-3. **Deterministic Rule Engine:** Hardcoded business logic checks against extracted structured parameters (e.g., matching vehicle registrations and time windows).
-4. **Contradiction Engine:** LLM-based semantic checks across multiple documents.
-5. **Escalation Orchestrator:** Synthesizes results and determines whether human intervention is required, ensuring fraud is not explicitly accused but flagged as a "potential inconsistency".
+## 2. Problem Statement
+Insurance claim investigation often requires investigators to manually compare multiple documents, such as:
+- Claim Forms
+- Incident Descriptions
+- FIR documents
+- Repair Estimates
+- Policy information
 
-## Technology Stack
-- **Backend:** Python 3.11, FastAPI
-- **Frontend:** Vanilla JS, HTML5, CSS3 (No external build tools needed)
-- **AI/LLM:** Google Gemini API (`gemini-1.5-flash`, `gemini-embedding-001`) via `google-genai`
-- **Data:** Local filesystem storage (no complex DB dependencies)
+This process introduces several challenges:
+- Missing documents delaying the process
+- Unstructured and varied evidence formats
+- Manual, time-consuming comparison
+- Complex policy verification
+- Cross-document inconsistencies that are hard to spot
 
-## How to Run
-1. Ensure Python 3.11 is installed.
-2. Clone the repository and install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Set your environment variables in `.env` (or let it run in fallback mode).
-4. Start the application:
-   ```bash
-   python app.py
-   ```
-5. Open your browser to `http://localhost:8000/`.
+## 3. Solution
+ClaimLens AI streamlines the review process through a multi-stage approach:
 
-## Environment Variables
-The application looks for a `.env` file at the root. The required variable is:
-- `GEMINI_API_KEY`: Your Google Gemini API key.
+Documents
+↓
+Evidence Extraction
+↓
+Policy Validation
+↓
+Consistency Analysis
+↓
+AI Reasoning
+↓
+Review Recommendation
 
-No API keys are committed to this repository. If the key is missing, the application will degrade gracefully and continue processing deterministic rules without LLM insights.
+Combining deterministic policy rules with AI semantic analysis ensures that hard constraints (like missing documents or strict deadlines) are rigidly enforced, while nuanced inconsistencies (like matching descriptions of an accident) are semantically evaluated by AI.
 
-## Data and Documents
-Data is loaded from the `data/` directory, containing sample claim scenarios (`claim_001`, `claim_002`, `claim_003`). Each claim includes:
-- Claim Form
-- Incident Description
-- Repair Estimate or FIR
-- Policy Documents
+## 4. Key Features
+- **Document Upload**: Supports uploading text documents (Claim Form, Incident Description, FIR, Repair Estimate).
+- **Evidence Completeness Checking**: Automatically identifies required vs. optional evidence based on the claim type.
+- **Policy Rule Validation**: Runs deterministic rule checks to enforce business logic (e.g., reporting windows, deductible thresholds, vehicle matching).
+- **Cross-Document Consistency**: Detects conflicting information, such as date mismatches between a claim form and a repair bill.
+- **AI-Assisted Semantic Analysis**: Uses Google Gemini to perform semantic searches over policy clauses and structure a comprehensive reasoning context.
+- **Evidence-Backed Recommendation**: Synthesizes findings into a final recommendation supported by actual evidence and policy clauses.
 
-## AI / RAG Pipeline
-The pipeline generates vector embeddings for policy clauses using `gemini-embedding-001`. Incoming claim evidence is embedded and matched using cosine similarity. The retrieved policy clauses are then injected into a prompt for `gemini-1.5-flash` to execute a final structured analysis of the evidence context.
-
-## Deterministic Rule Engine
-The application enforces policy guidelines using hardcoded deterministic rules, ensuring the AI cannot hallucinate critical boundaries. Rules cover reporting windows, documentation completeness, deductible thresholds, and vehicle registration matching.
-
-## Contradiction Detection
-An independent LLM task processes the documents strictly to identify inconsistencies (e.g., date mismatches between a claim form and a repair bill). Discrepancies are highlighted visually without fabricating assumptions. 
-
-## Human Escalation
-Uncertain cases, missing critical information, or severe contradictions trigger a formal escalation pathway. The system will explicitly flag the claim for "Human investigator review required" and detail the exact reason.
-
-## Demo Scenarios
-The UI provides 3 pre-built scenarios based on the `data/claims/` directory:
-1. **Claim 001 (Normal):** Everything matches. Recommendation: APPROVE.
-2. **Claim 002 (Missing Documents):** Missing mandatory repair estimates/FIRs. Recommendation: REQUEST INFORMATION.
-3. **Claim 003 (Contradiction):** Date and registration inconsistencies exist. Recommendation: ESCALATE (Review required).
-
-## API Endpoints
-- `GET /api/health`: Health status.
-- `GET /api/health/gemini`: Gemini connection status.
-- `POST /api/claims/review`: Accepts structured claim text payloads and returns the comprehensive audit report and recommendation.
-
-## Project Structure
+## 5. How It Works
+```text
+Upload Documents
+        ↓
+Extract Evidence
+        ↓
+Check Completeness
+        ↓
+Run Policy Rules
+        ↓
+Compare Documents
+        ↓
+Semantic AI Analysis
+        ↓
+Generate Recommendation
 ```
+- **Upload Documents**: User provides text-based claim documents via the UI.
+- **Extract Evidence**: The system parses the semi-structured text.
+- **Check Completeness**: Flags if mandatory documents are missing.
+- **Run Policy Rules**: Evaluates hardcoded rules against the extracted data.
+- **Compare Documents**: Uses an LLM task to detect inconsistencies across documents.
+- **Semantic AI Analysis**: Retrieves relevant policy clauses and synthesizes context using Gemini.
+- **Generate Recommendation**: Outputs a final decision state for the investigator.
+
+## 6. System Architecture
+```text
+          Frontend (HTML/CSS/JS)
+                    ↓
+            FastAPI Backend
+                    ↓
+          Document Processing
+                    ↓
+          Policy Rule Engine
+                    ↓
+           Evidence Analysis
+                    ↓
+       Gemini Semantic Analysis
+                    ↓
+             Decision Engine
+                    ↓
+              Review Result
+```
+
+## 7. AI Architecture
+- **Deterministic Layer**: Used for predictable policy and evidence checks, ensuring strict boundaries.
+- **AI Layer**: Uses Google Gemini (`gemini-embedding-001` for vector embeddings and `gemini-1.5-flash` for LLM tasks) for semantic search and contextual contradiction detection.
+- **Decision Layer**: Combines findings to produce one of the final recommendations:
+  - **APPROVE**
+  - **REQUEST INFORMATION**
+  - **ESCALATE**
+
+## 8. Decision Logic
+| Decision | Meaning |
+|---|---|
+| **APPROVE** | Evidence and policy checks support the claim. |
+| **REQUEST INFORMATION** | Required evidence is missing. |
+| **ESCALATE** | Conflicting or uncertain evidence requires human investigation. |
+
+*Escalation does not automatically indicate fraud.* It flags the claim as requiring a detailed human review.
+
+## 9. Demonstration Scenarios
+- **Scenario 1 — Normal Claim (Claim 001)**
+  - Expected: **APPROVE**
+  - Details: All documents present, dates align, and policy rules are met.
+
+- **Scenario 2 — Missing Documents (Claim 002)**
+  - Expected: **REQUEST INFORMATION**
+  - Details: Missing mandatory repair estimates or FIRs.
+
+- **Scenario 3 — Difficult Contradiction (Claim 003)**
+  - Expected: **ESCALATE**
+  - Details: Date and registration inconsistencies exist between the claim form and repair bill.
+
+## 10. Application Modules
+- **Home / Dashboard**: Overview of available claims and their statuses.
+- **New Claim Review**: Interface to upload new claim documents and trigger analysis.
+- **Demo Claims**: Pre-built scenarios to demonstrate the system's capabilities.
+- **Evidence**: Displays the status of required vs. missing documents.
+- **Policy**: View the loaded insurance policy clauses.
+- **Settings**: Configuration overview.
+
+## 11. Technology Stack
+| Layer | Technology | Purpose |
+|---|---|---|
+| Frontend | HTML / CSS / JavaScript | Vanilla UI interface |
+| Backend | Python 3.11 | Core logic application |
+| API Framework | FastAPI | High-performance REST API |
+| AI | Google Gemini | LLM processing (`gemini-1.5-flash`) |
+| Embeddings | Gemini Embedding Model | Vector search (`gemini-embedding-001`) |
+| Similarity Search | NumPy | Local semantic vector matching |
+
+## 12. Project Structure
+```text
 .
 ├── app.py                   # Main entry point (FastAPI + Static UI)
 ├── requirements.txt         # Required dependencies
 ├── README.md                # Project documentation
-├── backend/                 # API Routes, Models, and Services
+├── backend/                 # API Routes, Models, Config, and Services
 │   ├── rules/               # Deterministic rule engine
-│   └── services/            # Retrieval, Gemini, and Analysis services
-├── frontend/                # Vanilla HTML/CSS/JS interface
-└── data/                    # Sample claims and policy data
+│   └── services/            # Document, Retrieval, and Gemini services
+├── frontend/                # Vanilla HTML/CSS/JS interface (index.html, style.css, app.js)
+└── data/                    # Sample claims, processed data, and policy files
 ```
 
-## Demo Video
-[Link to Demo Video]
+## 13. Installation
+1. Ensure Python 3.11+ is installed.
+2. Clone the repository.
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## 14. Configuration
+Create a `.env` file in the root directory based on `.env.example`.
+Required environment variable:
+- `GEMINI_API_KEY`: Your Google Gemini API key.
+
+*Never commit your secrets or actual API keys to Git.*
+
+## 15. Running the Application
+Start the application using:
+```bash
+python app.py
+```
+The backend API and the frontend dashboard will be served locally at:
+[http://localhost:8000](http://localhost:8000)
+
+## 16. API / Health Check
+To verify the system is running, access the health endpoint:
+```http
+GET /api/health
+```
+**Expected Response:**
+```json
+{
+  "status": "ok",
+  "project": "ClaimLens AI"
+}
+```
+
+## 17. Security & Reliability
+- **Environment-based API keys**: Secrets are loaded securely via `.env`.
+- **No hard-coded secrets**: Zero exposure of sensitive keys in the source code.
+- **Graceful AI degradation**: Continues processing deterministic rules even if LLM insights fail.
+- **Deterministic policy rules**: Prevents AI hallucinations from overriding hard boundaries.
+- **Explainable findings**: Every AI decision is grounded in retrieved text.
+
+## 18. Responsible AI
+ClaimLens AI is an **investigator-assistance system**.
+- It does not replace human investigators.
+- It should not automatically accuse customers of fraud.
+- Uncertain or conflicting cases are escalated for human review.
+- AI-generated findings should be treated as decision support and reviewed appropriately.
+
+## 19. Future Enhancements
+- *FUTURE:* OCR for scanned documents
+- *FUTURE:* More document formats (PDF, images)
+- *FUTURE:* Advanced policy retrieval and agentic reasoning
+- *FUTURE:* Claim history analysis
+- *FUTURE:* Investigator feedback loops
+- *FUTURE:* Audit trails for compliance
+- *FUTURE:* Role-based access control
+- *FUTURE:* Production database integration
+- *FUTURE:* Cloud deployment architecture
+
+## 20. Demo Video
+## 🎥 Demo
+Demo Video:
+[ADD DEMO VIDEO LINK HERE]
+
+**Recommended demonstration flow:**
+1. Open ClaimLens AI
+2. Start New Claim Review
+3. Upload claim documents
+4. Analyze the claim
+5. Review evidence status
+6. Review policy checks
+7. Show APPROVE scenario (Claim 001)
+8. Show REQUEST INFORMATION scenario (Claim 002)
+9. Show ESCALATE scenario (Claim 003)
+
+## 21. Hackathon Value Proposition
+- **Evidence First**: Decisions are rigidly grounded in provided claim evidence.
+- **Hybrid Intelligence**: Effectively combines deterministic policy rules with semantic AI analysis to cover both hard boundaries and nuanced contradictions.
+- **Explainability**: Findings and recommendations are directly connected to extracted evidence and specific policy clauses.
+- **Human-in-the-Loop**: The system knows its limits—difficult or contradictory cases are securely escalated.
+- **Operational Efficiency**: Reduces repetitive manual document comparison, allowing investigators to focus on complex cases.
+
+## 22. Project Status
+| Component | Status |
+|---|---|
+| Frontend | 🟢 Active |
+| Backend | 🟢 Active |
+| Document Upload | 🟢 Active |
+| Evidence Processing | 🟢 Active |
+| Policy Rules | 🟢 Active |
+| Gemini Integration | 🟢 Active |
+| Contradiction Detection | 🟢 Active |
+| Demo Scenarios | 🟢 Active |
+| Health Check | 🟢 Active |
+| Local Deployment | 🟢 Active |
+
+## 23. Team
+- **Project**: ClaimLens AI
+- **Track**: PS02
+- **Domain**: Insurance / InsurTech
+- **Team**: [ADD TEAM MEMBERS]
+
+## 24. License
+This project is built for the hackathon and is provided as-is. See the LICENSE file for details if available.
