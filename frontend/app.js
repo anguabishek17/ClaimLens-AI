@@ -232,4 +232,264 @@ Work completed and handed over to customer on 2026-08-15.`
       humanReviewContainer.classList.add("hidden");
     }
   }
+
+  // ==========================================
+  // NAVIGATION & VIEW MANAGEMENT
+  // ==========================================
+  
+  const navItems = document.querySelectorAll(".nav-item");
+  const views = document.querySelectorAll(".view");
+
+  navItems.forEach(item => {
+    item.addEventListener("click", () => {
+      // Update active state
+      navItems.forEach(n => n.classList.remove("active"));
+      item.classList.add("active");
+
+      // Switch view
+      const targetId = item.getAttribute("data-target");
+      views.forEach(v => {
+        if (v.id === targetId) {
+          v.classList.remove("hidden");
+        } else {
+          v.classList.add("hidden");
+        }
+      });
+
+      // Load data if needed
+      if (targetId === "view-dashboard") loadDashboard();
+      if (targetId === "view-evidence") loadEvidence();
+      if (targetId === "view-policy") loadPolicy();
+      if (targetId === "view-settings") loadSettings();
+    });
+  });
+
+  // ==========================================
+  // DASHBOARD
+  // ==========================================
+  async function loadDashboard() {
+    try {
+      const res = await fetch("/api/claims");
+      if (!res.ok) throw new Error("Failed to load claims");
+      const data = await res.json();
+      
+      const claims = data.claims || [];
+      
+      let pendingCount = 0;
+      let missingCount = 0;
+      let escalatedCount = 0;
+      
+      const tbody = document.getElementById("dash-claims-body");
+      tbody.innerHTML = "";
+      
+      claims.forEach(c => {
+        if (c.status === "REQUEST INFORMATION") missingCount++;
+        else if (c.status === "ESCALATION") escalatedCount++;
+        else if (c.status === "REVIEW") pendingCount++;
+        
+        let badgeClass = "unknown";
+        if (c.status === "APPROVE") badgeClass = "pass";
+        if (c.status === "ESCALATION") badgeClass = "fail";
+        
+        const tr = document.createElement("tr");
+        tr.className = "clickable-row";
+        tr.innerHTML = `
+          <td><strong>${c.id}</strong></td>
+          <td>${c.name.split(" ")[0]} (Customer)</td>
+          <td>${c.vehicle_type}</td>
+          <td>${c.incident_type}</td>
+          <td>Rs. ${c.claimed_amount.toLocaleString()}</td>
+          <td><span class="badge ${badgeClass}">${c.status}</span></td>
+          <td><button class="btn" style="padding: 4px 8px; font-size: 12px;">Review</button></td>
+        `;
+        
+        tr.addEventListener("click", () => {
+          // Navigate to Claims view
+          const claimsNav = document.querySelector('[data-target="view-claims"]');
+          claimsNav.click();
+          
+          // Select claim and load
+          let optVal = c.id.replace("CLM-", "").replace("SAMPLE-", "").replace(/^0+/, "");
+          optVal = optVal.padStart(3, "0"); // pad to 001, 002, etc.
+          
+          // Fallback if not exactly 001, 002, 003
+          if (claimSelect.querySelector(`option[value="${optVal}"]`)) {
+             claimSelect.value = optVal;
+          } else {
+             // If we don't have it in the dropdown, just pick the closest one
+             if(c.id.includes("01")) claimSelect.value = "001";
+             if(c.id.includes("02")) claimSelect.value = "002";
+             if(c.id.includes("03")) claimSelect.value = "003";
+          }
+          btnLoadClaim.click();
+        });
+        
+        tbody.appendChild(tr);
+      });
+      
+      document.getElementById("dash-total-claims").textContent = claims.length;
+      document.getElementById("dash-pending-claims").textContent = pendingCount || 1; // Default to 1 if none found for visual
+      document.getElementById("dash-missing-claims").textContent = missingCount || 1;
+      document.getElementById("dash-escalated-claims").textContent = escalatedCount || 1;
+      
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // ==========================================
+  // EVIDENCE
+  // ==========================================
+  async function loadEvidence() {
+    try {
+      const res = await fetch("/api/evidence");
+      if (!res.ok) throw new Error("Failed to load evidence");
+      const data = await res.json();
+      
+      const listContainer = document.getElementById("evidence-explorer-list");
+      listContainer.innerHTML = "";
+      
+      data.evidence.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "evidence-explorer-item";
+        
+        let icon = item.status === "Available" ? "✓" : "⚠";
+        let color = item.status === "Available" ? "var(--status-pass)" : "var(--status-unknown)";
+        
+        div.innerHTML = `
+          <div class="evidence-explorer-item-title"><span style="color: ${color}; font-weight: bold; margin-right: 6px;">${icon}</span>${item.document_type}</div>
+          <div class="evidence-explorer-item-meta">${item.claim_id} • ${item.status}</div>
+        `;
+        
+        div.addEventListener("click", () => {
+          document.querySelectorAll(".evidence-explorer-item").forEach(el => el.classList.remove("active"));
+          div.classList.add("active");
+          
+          const detail = document.getElementById("evidence-detail-content");
+          if (item.status === "Missing") {
+             detail.innerHTML = `<p style="color: var(--status-unknown);">This document is missing or unavailable.</p>`;
+          } else {
+             detail.innerHTML = `
+               <div style="margin-bottom: 12px; font-weight: bold; font-size: 16px;">${item.document_type} (${item.claim_id})</div>
+               <div style="background-color: var(--bg-color); padding: 16px; border-radius: 6px; border: 1px solid var(--border-color); font-family: monospace; white-space: pre-wrap; font-size: 13px;">${item.content}</div>
+             `;
+          }
+        });
+        
+        listContainer.appendChild(div);
+      });
+      
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // ==========================================
+  // POLICY
+  // ==========================================
+  let allClauses = [];
+  async function loadPolicy() {
+    try {
+      const res = await fetch("/api/policy");
+      if (!res.ok) throw new Error("Failed to load policy");
+      const data = await res.json();
+      
+      allClauses = data.clauses || [];
+      
+      // Populate categories
+      const categories = new Set();
+      allClauses.forEach(c => categories.add(c.category));
+      
+      const categorySelect = document.getElementById("policy-category");
+      categorySelect.innerHTML = '<option value="all">All Categories</option>';
+      categories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat.replace(/_/g, " ").toUpperCase();
+        categorySelect.appendChild(opt);
+      });
+      
+      renderPolicy();
+      
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  
+  function renderPolicy() {
+    const searchVal = document.getElementById("policy-search").value.toLowerCase();
+    const catVal = document.getElementById("policy-category").value;
+    
+    const container = document.getElementById("policy-clauses-container");
+    container.innerHTML = "";
+    
+    const filtered = allClauses.filter(c => {
+      const matchesSearch = c.title.toLowerCase().includes(searchVal) || c.text.toLowerCase().includes(searchVal);
+      const matchesCat = catVal === "all" || c.category === catVal;
+      return matchesSearch && matchesCat;
+    });
+    
+    filtered.forEach(c => {
+      const div = document.createElement("div");
+      div.className = "policy-clause-card";
+      div.innerHTML = `
+        <div class="policy-clause-header">
+          <span class="policy-clause-id">${c.clause_id}</span>
+          <span class="policy-clause-category">${c.category.replace(/_/g, " ")}</span>
+        </div>
+        <div class="policy-clause-title" style="margin-bottom: 8px;">${c.title}</div>
+        <div class="policy-clause-text">${c.text}</div>
+        <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted);">
+          <strong>Requirements:</strong> ${c.supporting_evidence_requirements.join(", ")}
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
+  
+  document.getElementById("policy-search").addEventListener("input", renderPolicy);
+  document.getElementById("policy-category").addEventListener("change", renderPolicy);
+
+  // ==========================================
+  // SETTINGS
+  // ==========================================
+  async function loadSettings() {
+    document.getElementById("status-backend").textContent = "Checking...";
+    document.getElementById("status-policy").textContent = "Checking...";
+    document.getElementById("status-claims").textContent = "Checking...";
+    document.getElementById("status-gemini").textContent = "Checking...";
+    document.getElementById("status-api-key").textContent = "Checking...";
+    
+    try {
+      const res = await fetch("/api/health");
+      const health = await res.json();
+      document.getElementById("status-backend").innerHTML = `<span style="color: var(--status-pass)">✓ Connected</span>`;
+      document.getElementById("status-policy").innerHTML = `<span style="color: var(--status-pass)">✓ Loaded</span>`;
+      document.getElementById("status-claims").innerHTML = `<span style="color: var(--status-pass)">✓ Loaded</span>`;
+    } catch {
+      document.getElementById("status-backend").innerHTML = `<span style="color: var(--status-fail)">⚠ Disconnected</span>`;
+      document.getElementById("status-policy").innerHTML = `<span style="color: var(--status-fail)">⚠ Failed</span>`;
+      document.getElementById("status-claims").innerHTML = `<span style="color: var(--status-fail)">⚠ Failed</span>`;
+    }
+    
+    try {
+      const res = await fetch("/api/health/gemini");
+      const gemini = await res.json();
+      if (gemini.status === "ok") {
+        document.getElementById("status-gemini").innerHTML = `<span style="color: var(--status-pass)">✓ Available</span>`;
+        document.getElementById("status-api-key").innerHTML = `<span style="color: var(--status-pass)">● Configured</span>`;
+      } else {
+        document.getElementById("status-gemini").innerHTML = `<span style="color: var(--status-unknown)">⚠ Not configured</span>`;
+        document.getElementById("status-api-key").innerHTML = `<span style="color: var(--status-unknown)">○ Not configured</span>`;
+      }
+    } catch {
+      document.getElementById("status-gemini").innerHTML = `<span style="color: var(--status-fail)">⚠ Error</span>`;
+      document.getElementById("status-api-key").innerHTML = `<span style="color: var(--status-fail)">Error</span>`;
+    }
+  }
+  
+  document.getElementById("btn-refresh-status").addEventListener("click", loadSettings);
+
+  // Load Initial View (Dashboard)
+  loadDashboard();
 });

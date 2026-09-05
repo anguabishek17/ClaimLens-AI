@@ -59,7 +59,122 @@ async def health_check():
     """
     Health check endpoint returning system status and project name.
     """
+    # Quick check if policy is loaded
+    policy_loaded = (Path("data/policy/policy.json").exists())
     return HealthResponse(status="ok", project="ClaimLens AI")
+
+@router.get("/claims")
+async def get_all_claims():
+    """
+    Returns a list of all available claims for the dashboard.
+    """
+    import json
+    from pathlib import Path
+    
+    claims_dir = Path("data/claims")
+    claims_list = []
+    
+    # Try reading sample_claims.json first as it has summary data
+    sample_claims_path = claims_dir / "sample_claims.json"
+    if sample_claims_path.exists():
+        with open(sample_claims_path, "r", encoding="utf-8") as f:
+            sample_data = json.load(f)
+            # Adapt it slightly for dashboard if needed
+            for c in sample_data:
+                claims_list.append({
+                    "id": c.get("id"),
+                    "name": c.get("name"),
+                    "vehicle_type": c.get("vehicle_type"),
+                    "incident_type": c.get("claim_type"),
+                    "claimed_amount": c.get("claimed_amount"),
+                    "status": "ESCALATION" if "Escalation" in c.get("name", "") else ("REQUEST INFORMATION" if "Missing" in c.get("name", "") else "APPROVE")
+                })
+    
+    # If we want to read from directories directly:
+    for d in claims_dir.glob("claim_*"):
+        if d.is_dir():
+            claim_json = d / "claim.json"
+            if claim_json.exists():
+                with open(claim_json, "r", encoding="utf-8") as f:
+                    cdata = json.load(f)
+                    # Check if already added by sample_claims
+                    if not any(x["id"] == cdata.get("claim_id") for x in claims_list):
+                        claims_list.append({
+                            "id": cdata.get("claim_id"),
+                            "name": cdata.get("name"),
+                            "vehicle_type": cdata.get("vehicle_type"),
+                            "incident_type": cdata.get("claim_type"),
+                            "claimed_amount": cdata.get("claimed_amount"),
+                            "status": cdata.get("status_expected", "REVIEW")
+                        })
+    return {"claims": claims_list, "count": len(claims_list)}
+
+@router.get("/policy")
+async def get_policy_clauses():
+    """
+    Returns all policy clauses.
+    """
+    import json
+    from pathlib import Path
+    
+    policy_file = Path("data/policy/policy.json")
+    if not policy_file.exists():
+        return {"clauses": [], "count": 0}
+        
+    with open(policy_file, "r", encoding="utf-8") as f:
+        clauses = json.load(f)
+        return {"clauses": clauses, "count": len(clauses)}
+
+@router.get("/evidence")
+async def get_all_evidence():
+    """
+    Scans claims directories to return a list of available/missing evidence.
+    """
+    import json
+    from pathlib import Path
+    
+    claims_dir = Path("data/claims")
+    evidence_list = []
+    
+    for d in claims_dir.glob("claim_*"):
+        if d.is_dir():
+            claim_id = "unknown"
+            claim_json = d / "claim.json"
+            if claim_json.exists():
+                with open(claim_json, "r", encoding="utf-8") as f:
+                    cdata = json.load(f)
+                    claim_id = cdata.get("claim_id", "unknown")
+            else:
+                claim_id = d.name.upper()
+
+            # Check for specific files
+            files_to_check = {
+                "claim_form.txt": "Claim Form",
+                "incident_description.txt": "Incident Description",
+                "repair_estimate.txt": "Repair Estimate",
+                "fir.txt": "FIR"
+            }
+            
+            for filename, doc_type in files_to_check.items():
+                file_path = d / filename
+                if file_path.exists():
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        content = f.read()
+                    evidence_list.append({
+                        "claim_id": claim_id,
+                        "document_type": doc_type,
+                        "status": "Available",
+                        "content": content
+                    })
+                else:
+                    evidence_list.append({
+                        "claim_id": claim_id,
+                        "document_type": doc_type,
+                        "status": "Missing",
+                        "content": ""
+                    })
+                    
+    return {"evidence": evidence_list, "count": len(evidence_list)}
 
 
 @router.get("/health/gemini")

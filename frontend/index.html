@@ -21,31 +21,77 @@
       ClaimLens AI
     </div>
     <ul class="nav-links">
-      <li class="nav-item">Dashboard</li>
-      <li class="nav-item active">Claims</li>
-      <li class="nav-item">Evidence</li>
-      <li class="nav-item">Policy</li>
-      <li class="nav-item">Settings</li>
+      <li class="nav-item active" data-target="view-dashboard">Dashboard</li>
+      <li class="nav-item" data-target="view-claims">Claims</li>
+      <li class="nav-item" data-target="view-evidence">Evidence</li>
+      <li class="nav-item" data-target="view-policy">Policy</li>
+      <li class="nav-item" data-target="view-settings">Settings</li>
     </ul>
   </aside>
 
   <main class="main">
-    <header class="header">
-      <h1>Claims Evidence Review</h1>
-      <div class="claim-selector">
-        <label for="claim-select" style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Select Claim</label>
-        <select id="claim-select">
-          <option value="001">Claim 001 — Normal</option>
-          <option value="002">Claim 002 — Missing Documents</option>
-          <option value="003">Claim 003 — Contradiction</option>
-        </select>
-        <button id="btn-load-claim" class="btn">Load Claim</button>
+    <!-- DASHBOARD VIEW -->
+    <div id="view-dashboard" class="view">
+      <header class="header">
+        <h1>Dashboard</h1>
+      </header>
+      <div class="dashboard-summary">
+        <div class="summary-card">
+          <div class="summary-title">Total Claims</div>
+          <div class="summary-value" id="dash-total-claims">0</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-title">Pending Review</div>
+          <div class="summary-value" id="dash-pending-claims">0</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-title">Missing Evidence</div>
+          <div class="summary-value" id="dash-missing-claims">0</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-title">Escalated</div>
+          <div class="summary-value" id="dash-escalated-claims">0</div>
+        </div>
       </div>
-    </header>
+      <section class="card">
+        <h2>Claims Overview</h2>
+        <table class="policy-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th>Claim ID</th>
+              <th>Customer</th>
+              <th>Vehicle</th>
+              <th>Incident</th>
+              <th>Claim Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="dash-claims-body">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </section>
+    </div>
 
-    <div id="error-container" class="error-state hidden"></div>
+    <!-- CLAIMS VIEW (Existing) -->
+    <div id="view-claims" class="view hidden">
+      <header class="header">
+        <h1>Claims Evidence Review</h1>
+        <div class="claim-selector">
+          <label for="claim-select" style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Select Claim</label>
+          <select id="claim-select">
+            <option value="001">Claim 001 — Normal</option>
+            <option value="002">Claim 002 — Missing Documents</option>
+            <option value="003">Claim 003 — Contradiction</option>
+          </select>
+          <button id="btn-load-claim" class="btn">Load Claim</button>
+        </div>
+      </header>
 
-    <div id="results-container" class="hidden">
+      <div id="error-container" class="error-state hidden"></div>
+
+      <div id="results-container" class="hidden">
       <!-- Overview Card -->
       <section class="card">
         <h2>Claim Overview</h2>
@@ -137,6 +183,108 @@
       </div>
     </div>
     
+    </div> <!-- end view-claims -->
+
+    <!-- EVIDENCE VIEW -->
+    <div id="view-evidence" class="view hidden">
+      <header class="header">
+        <h1>Evidence Explorer</h1>
+      </header>
+      <div class="evidence-layout">
+        <div class="evidence-list-panel card">
+          <h2>Available Documents</h2>
+          <div id="evidence-explorer-list" class="evidence-explorer-list">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+        <div class="evidence-detail-panel card">
+          <h2>Document Detail</h2>
+          <div id="evidence-detail-content" class="evidence-detail-content">
+            <p style="color: var(--text-muted);">Select a document to view details.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POLICY VIEW -->
+    <div id="view-policy" class="view hidden">
+      <header class="header">
+        <h1>Policy Knowledge Base</h1>
+      </header>
+      <div class="policy-description">
+        This is the policy knowledge base used by ClaimLens AI during claim review.
+      </div>
+      <div class="policy-controls">
+        <input type="text" id="policy-search" placeholder="Search policy clauses..." class="form-input" />
+        <select id="policy-category" class="form-input">
+          <option value="all">All Categories</option>
+        </select>
+      </div>
+      <div id="policy-clauses-container" class="policy-clauses-container">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+
+    <!-- SETTINGS VIEW -->
+    <div id="view-settings" class="view hidden">
+      <header class="header">
+        <h1>Settings & Diagnostics</h1>
+        <button id="btn-refresh-status" class="btn">Refresh Status</button>
+      </header>
+      
+      <div class="section-grid">
+        <section class="card">
+          <h2>System</h2>
+          <div class="overview-grid">
+            <div class="overview-item">
+              <span class="overview-label">Application</span>
+              <span class="overview-value">ClaimLens AI</span>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">Environment</span>
+              <span class="overview-value">Local</span>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">Backend</span>
+              <span class="overview-value">Python / FastAPI</span>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">Port</span>
+              <span class="overview-value">8000</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>AI Configuration</h2>
+          <div class="overview-grid">
+            <div class="overview-item">
+              <span class="overview-label">LLM</span>
+              <span class="overview-value">Gemini</span>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">Embedding</span>
+              <span class="overview-value">gemini-embedding-001</span>
+            </div>
+            <div class="overview-item">
+              <span class="overview-label">API Key Status</span>
+              <span class="overview-value" id="status-api-key">Checking...</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>System Status</h2>
+          <div class="evidence-list">
+            <div class="evidence-item" id="status-backend">Checking...</div>
+            <div class="evidence-item" id="status-policy">Checking...</div>
+            <div class="evidence-item" id="status-claims">Checking...</div>
+            <div class="evidence-item" id="status-gemini">Checking...</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
     <div id="loading-overlay" class="loading-overlay hidden">
       <div class="spinner"></div>
       <div>Running Deterministic Rules & AI Analysis...</div>
