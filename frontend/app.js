@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  // ============================================================
+  // ELEMENT REFERENCES
+  // ============================================================
   const claimSelect = document.getElementById("claim-select");
   const btnLoadClaim = document.getElementById("btn-load-claim");
   
@@ -6,6 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorContainer = document.getElementById("error-container");
   const loadingOverlay = document.getElementById("loading-overlay");
 
+  // ============================================================
+  // DEMO CLAIM DATA (existing — unmodified)
+  // ============================================================
   const claimsData = {
     "001": {
       vehicle_type: "CAR",
@@ -77,6 +84,9 @@ Work completed and handed over to customer on 2026-08-15.`
     }
   };
 
+  // ============================================================
+  // DEMO CLAIMS: Load Claim Button (existing — unmodified)
+  // ============================================================
   btnLoadClaim.addEventListener("click", async () => {
     const claimId = claimSelect.value;
     const payload = claimsData[claimId];
@@ -115,6 +125,9 @@ Work completed and handed over to customer on 2026-08-15.`
     }
   });
 
+  // ============================================================
+  // DEMO CLAIMS: Render Results (existing — unmodified)
+  // ============================================================
   function renderResults(data) {
     resultsContainer.classList.remove("hidden");
     
@@ -233,40 +246,384 @@ Work completed and handed over to customer on 2026-08-15.`
     }
   }
 
-  // ==========================================
+  // ============================================================
   // NAVIGATION & VIEW MANAGEMENT
-  // ==========================================
-  
+  // ============================================================
   const navItems = document.querySelectorAll(".nav-item");
   const views = document.querySelectorAll(".view");
 
+  function switchView(targetId) {
+    navItems.forEach(n => n.classList.remove("active"));
+    const activeNav = document.querySelector(`[data-target="${targetId}"]`);
+    if (activeNav) activeNav.classList.add("active");
+
+    views.forEach(v => {
+      if (v.id === targetId) {
+        v.classList.remove("hidden");
+      } else {
+        v.classList.add("hidden");
+      }
+    });
+
+    // Load data if needed
+    if (targetId === "view-dashboard") loadDashboard();
+    if (targetId === "view-evidence") loadEvidence();
+    if (targetId === "view-policy") loadPolicy();
+    if (targetId === "view-settings") loadSettings();
+  }
+
   navItems.forEach(item => {
     item.addEventListener("click", () => {
-      // Update active state
-      navItems.forEach(n => n.classList.remove("active"));
-      item.classList.add("active");
-
-      // Switch view
       const targetId = item.getAttribute("data-target");
-      views.forEach(v => {
-        if (v.id === targetId) {
-          v.classList.remove("hidden");
-        } else {
-          v.classList.add("hidden");
-        }
-      });
-
-      // Load data if needed
-      if (targetId === "view-dashboard") loadDashboard();
-      if (targetId === "view-evidence") loadEvidence();
-      if (targetId === "view-policy") loadPolicy();
-      if (targetId === "view-settings") loadSettings();
+      switchView(targetId);
     });
   });
 
-  // ==========================================
+  // ============================================================
+  // HOME PAGE CTAs
+  // ============================================================
+  document.getElementById("btn-start-review").addEventListener("click", () => {
+    switchView("view-upload");
+  });
+
+  document.getElementById("btn-view-demo").addEventListener("click", () => {
+    switchView("view-claims");
+  });
+
+  // ============================================================
+  // RESULT PAGE ACTION BUTTONS
+  // ============================================================
+  document.getElementById("btn-result-new-review").addEventListener("click", () => {
+    switchView("view-upload");
+  });
+
+  document.getElementById("btn-result-dashboard").addEventListener("click", () => {
+    switchView("view-dashboard");
+  });
+
+  // ============================================================
+  // UPLOAD CANCEL BUTTON
+  // ============================================================
+  document.getElementById("btn-upload-cancel").addEventListener("click", () => {
+    switchView("view-home");
+  });
+
+  // ============================================================
+  // FILE UPLOAD LOGIC
+  // ============================================================
+
+  // State tracking
+  const uploadedFiles = {
+    claim_form: null,
+    incident_description: null,
+    fir: null,
+    repair_estimate: null
+  };
+
+  const ZONE_CONFIG = [
+    { zoneId: "zone-claim-form",  inputId: "file-claim-form", statusId: "status-claim-form", docType: "claim_form",            required: true  },
+    { zoneId: "zone-incident",    inputId: "file-incident",   statusId: "status-incident",   docType: "incident_description",  required: true  },
+    { zoneId: "zone-fir",        inputId: "file-fir",         statusId: "status-fir",        docType: "fir",                   required: false },
+    { zoneId: "zone-repair",     inputId: "file-repair",      statusId: "status-repair",     docType: "repair_estimate",       required: false }
+  ];
+
+  ZONE_CONFIG.forEach(cfg => {
+    const zone  = document.getElementById(cfg.zoneId);
+    const input = document.getElementById(cfg.inputId);
+    const status = document.getElementById(cfg.statusId);
+
+    // Click on zone triggers file input
+    zone.addEventListener("click", (e) => {
+      if (e.target !== input) input.click();
+    });
+
+    // Drag-and-drop
+    zone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      zone.classList.add("drag-over");
+    });
+    zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
+    zone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      zone.classList.remove("drag-over");
+      const file = e.dataTransfer.files[0];
+      if (file) handleFileSelected(file, cfg, zone, status);
+    });
+
+    // File input change
+    input.addEventListener("change", () => {
+      const file = input.files[0];
+      if (file) handleFileSelected(file, cfg, zone, status);
+    });
+  });
+
+  function handleFileSelected(file, cfg, zone, statusEl) {
+    uploadedFiles[cfg.docType] = file;
+    zone.classList.add("has-file");
+    statusEl.textContent = file.name;
+    checkSubmitEnabled();
+  }
+
+  function checkSubmitEnabled() {
+    const requiredFilled = ZONE_CONFIG
+      .filter(c => c.required)
+      .every(c => uploadedFiles[c.docType] !== null);
+    
+    document.getElementById("btn-upload-submit").disabled = !requiredFilled;
+  }
+
+  // Convert File to base64
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // result is "data:<type>;base64,<data>" — strip prefix
+        const b64 = reader.result.split(",")[1];
+        resolve(b64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Animated progress steps
+  const PROGRESS_STEP_DELAYS = [300, 1400, 2600, 3800, 5000];
+
+  function startProgressAnimation() {
+    const steps = document.querySelectorAll(".progress-step");
+    // Reset all
+    steps.forEach(s => { s.classList.remove("active", "done"); });
+    steps[0].classList.add("active");
+
+    let currentStep = 0;
+    const timers = [];
+
+    PROGRESS_STEP_DELAYS.forEach((delay, i) => {
+      const t = setTimeout(() => {
+        if (i > 0) steps[i - 1].classList.replace("active", "done");
+        if (i < steps.length) steps[i].classList.add("active");
+        currentStep = i;
+      }, delay);
+      timers.push(t);
+    });
+
+    return () => timers.forEach(t => clearTimeout(t));
+  }
+
+  // Submit upload form
+  document.getElementById("btn-upload-submit").addEventListener("click", async () => {
+    const claimType = document.getElementById("upload-claim-type").value;
+
+    // Show progress overlay
+    const overlay = document.getElementById("upload-progress-overlay");
+    overlay.classList.remove("hidden");
+    const cancelAnimation = startProgressAnimation();
+
+    try {
+      // Build file list
+      const filesPayload = [];
+
+      for (const cfg of ZONE_CONFIG) {
+        const file = uploadedFiles[cfg.docType];
+        if (!file) continue;
+        const b64 = await fileToBase64(file);
+        filesPayload.push({
+          filename: file.name,
+          content_b64: b64,
+          document_type: cfg.docType
+        });
+      }
+
+      const payload = {
+        claim_type: claimType,
+        files: filesPayload
+      };
+
+      const res = await fetch("/api/review/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      cancelAnimation();
+      overlay.classList.add("hidden");
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: `Server error ${res.status}` }));
+        throw new Error(err.detail || `Server returned ${res.status}`);
+      }
+
+      const data = await res.json();
+      renderUploadResult(data);
+      switchView("view-result");
+
+    } catch (err) {
+      cancelAnimation();
+      overlay.classList.add("hidden");
+      alert(`Upload failed: ${err.message}`);
+    }
+  });
+
+  // ============================================================
+  // RESULT PAGE RENDERER
+  // ============================================================
+  function renderUploadResult(data) {
+    const rec = data.recommendation || "UNKNOWN";
+    const recSlug = rec.replace(/\s+/g, "-");
+
+    // Hero banner
+    const hero = document.getElementById("result-hero");
+    hero.className = `result-hero rec-${recSlug}`;
+
+    document.getElementById("result-claim-id").textContent = `Claim ID: ${data.claim_id}`;
+    document.getElementById("result-recommendation-text").textContent = rec;
+    document.getElementById("result-verdict-badge").textContent = rec;
+    document.getElementById("result-summary-text").textContent = data.summary_notes || "";
+
+    // Summary section
+    document.getElementById("r-claim-id").textContent = data.claim_id;
+    document.getElementById("r-recommendation").innerHTML = `<span class="rec-${recSlug}" style="font-weight:700;">${rec}</span>`;
+    document.getElementById("r-escalate").textContent = data.escalate_to_human ? "Yes" : "No";
+
+    // Document Status
+    const docStatusList = document.getElementById("r-document-status");
+    docStatusList.innerHTML = "";
+    if (data.document_completeness && data.document_completeness.length > 0) {
+      data.document_completeness.forEach(doc => {
+        const div = document.createElement("div");
+        let cls = "result-doc-status-item";
+        let icon = "";
+        if (!doc.is_present) {
+          cls += " missing"; icon = "✗";
+        } else if (!doc.is_sufficient) {
+          cls += " insufficient"; icon = "⚠";
+        } else {
+          cls += " present"; icon = "✓";
+        }
+        div.className = cls;
+        div.innerHTML = `<strong>${icon}</strong> ${doc.document_name}${doc.notes ? `<span style="font-size:12px;color:inherit;margin-left:8px;opacity:0.75;">${doc.notes}</span>` : ""}`;
+        docStatusList.appendChild(div);
+      });
+    } else {
+      docStatusList.innerHTML = `<div style="color:var(--text-muted);font-size:14px;">No document status available.</div>`;
+    }
+
+    // Policy Checks
+    const policyBody = document.getElementById("r-policy-checks-body");
+    policyBody.innerHTML = "";
+    (data.rule_results || []).forEach(rule => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><strong>${rule.rule_id}</strong></td>
+        <td><span class="badge ${rule.status.toLowerCase()}">${rule.status}</span></td>
+        <td style="font-size:13px;">${rule.finding}</td>
+        <td style="font-size:12px;color:var(--text-muted);">${rule.policy_clause}</td>
+      `;
+      policyBody.appendChild(tr);
+    });
+
+    // Contradictions
+    const contrList = document.getElementById("r-contradictions-list");
+    const contrSection = document.getElementById("r-contradictions-section");
+    contrList.innerHTML = "";
+    const contradictions = data.contradictions || [];
+
+    if (contradictions.length > 0) {
+      contrSection.style.display = "";
+      contradictions.forEach(c => {
+        const severityHtml = c.severity
+          ? `<span class="severity-badge ${c.severity}">${c.severity}</span>`
+          : "";
+        const div = document.createElement("div");
+        div.className = "contradiction-card";
+        div.innerHTML = `
+          <div class="contradiction-header">CONTRADICTION ${severityHtml}</div>
+          <div class="contradiction-title">${(c.field || "Unknown").replace(/_/g, " ").toUpperCase()}</div>
+          <div class="contradiction-body">
+            <div>
+              <div class="doc-source">${c.document_a?.source || "Document A"}</div>
+              <div class="doc-value">${c.document_a?.value || "—"}</div>
+            </div>
+            <div>
+              <div class="doc-source">${c.document_b?.source || "Document B"}</div>
+              <div class="doc-value">${c.document_b?.value || "—"}</div>
+            </div>
+          </div>
+          <span class="investigation-tag">Requires Investigation</span>
+          <div style="margin-top:10px;font-size:13px;color:var(--text-muted);">${c.explanation || ""}</div>
+        `;
+        contrList.appendChild(div);
+      });
+    } else {
+      contrSection.style.display = "";
+      contrList.innerHTML = `<div style="color:var(--status-pass);font-weight:600;font-size:14px;">✓ No contradictions detected across documents.</div>`;
+    }
+
+    // Evidence Findings
+    const evidenceDiv = document.getElementById("r-evidence-findings");
+    evidenceDiv.innerHTML = "";
+    const findings = data.evidence_findings || [];
+    if (findings.length > 0) {
+      findings.forEach(f => {
+        const div = document.createElement("div");
+        div.className = "result-evidence-item";
+        div.innerHTML = `
+          <div class="result-evidence-category">${f.category || ""}</div>
+          <div class="result-evidence-observation">${f.observation || ""}</div>
+          <div class="result-evidence-meta">Source: ${f.source_document || "—"}${f.policy_clause_ref ? ` | Clause: ${f.policy_clause_ref}` : ""}</div>
+        `;
+        evidenceDiv.appendChild(div);
+      });
+    } else {
+      evidenceDiv.innerHTML = `<div style="color:var(--text-muted);font-size:14px;">No specific evidence findings logged.</div>`;
+    }
+
+    // Applicable Clauses
+    const clausesDiv = document.getElementById("r-applicable-clauses");
+    clausesDiv.innerHTML = "";
+    const clauses = data.applicable_clauses || [];
+    if (clauses.length > 0) {
+      clauses.forEach(c => {
+        const impact = c.impact || "NOT_APPLICABLE";
+        const div = document.createElement("div");
+        div.className = "result-clause-item";
+        div.innerHTML = `
+          <div class="result-clause-header">
+            <span class="result-clause-id">${c.clause_id}</span>
+            <span class="impact-badge ${impact}">${impact.replace("_", " ")}</span>
+          </div>
+          <div class="result-clause-title">${c.clause_title || ""}</div>
+          <div class="result-clause-reasoning">${c.reasoning || ""}</div>
+        `;
+        clausesDiv.appendChild(div);
+      });
+    } else {
+      clausesDiv.innerHTML = `<div style="color:var(--text-muted);font-size:14px;">No applicable policy clauses identified.</div>`;
+    }
+
+    // Escalation
+    const escSection = document.getElementById("r-escalation-section");
+    const escDetails = document.getElementById("r-escalation-details");
+    escSection.style.display = "";
+
+    if (data.escalate_to_human && data.escalation) {
+      const esc = data.escalation;
+      const priorityClass = esc.priority || "MEDIUM";
+      escDetails.className = "result-escalation-box";
+      escDetails.innerHTML = `
+        <span class="result-priority-badge ${priorityClass}">${priorityClass} PRIORITY</span>
+        <div class="result-escalation-reason">${esc.reason || "Escalation required."}</div>
+        <div class="result-escalation-action"><strong>Recommended Action:</strong> ${esc.human_action || "Manual review needed."}</div>
+      `;
+    } else {
+      escDetails.className = "result-escalation-box hidden-box";
+      escDetails.innerHTML = `<div style="color:var(--text-muted);font-size:14px;">✓ No human escalation required for this claim.</div>`;
+    }
+  }
+
+  // ============================================================
   // DASHBOARD
-  // ==========================================
+  // ============================================================
   async function loadDashboard() {
     try {
       const res = await fetch("/api/claims");
@@ -305,8 +662,7 @@ Work completed and handed over to customer on 2026-08-15.`
         
         tr.addEventListener("click", () => {
           // Navigate to Claims view
-          const claimsNav = document.querySelector('[data-target="view-claims"]');
-          claimsNav.click();
+          switchView("view-claims");
           
           // Select claim and load
           let optVal = c.id.replace("CLM-", "").replace("SAMPLE-", "").replace(/^0+/, "");
@@ -316,7 +672,6 @@ Work completed and handed over to customer on 2026-08-15.`
           if (claimSelect.querySelector(`option[value="${optVal}"]`)) {
              claimSelect.value = optVal;
           } else {
-             // If we don't have it in the dropdown, just pick the closest one
              if(c.id.includes("01")) claimSelect.value = "001";
              if(c.id.includes("02")) claimSelect.value = "002";
              if(c.id.includes("03")) claimSelect.value = "003";
@@ -328,7 +683,7 @@ Work completed and handed over to customer on 2026-08-15.`
       });
       
       document.getElementById("dash-total-claims").textContent = claims.length;
-      document.getElementById("dash-pending-claims").textContent = pendingCount || 1; // Default to 1 if none found for visual
+      document.getElementById("dash-pending-claims").textContent = pendingCount || 1;
       document.getElementById("dash-missing-claims").textContent = missingCount || 1;
       document.getElementById("dash-escalated-claims").textContent = escalatedCount || 1;
       
@@ -337,9 +692,9 @@ Work completed and handed over to customer on 2026-08-15.`
     }
   }
 
-  // ==========================================
+  // ============================================================
   // EVIDENCE
-  // ==========================================
+  // ============================================================
   async function loadEvidence() {
     try {
       const res = await fetch("/api/evidence");
@@ -384,9 +739,9 @@ Work completed and handed over to customer on 2026-08-15.`
     }
   }
 
-  // ==========================================
+  // ============================================================
   // POLICY
-  // ==========================================
+  // ============================================================
   let allClauses = [];
   async function loadPolicy() {
     try {
@@ -450,9 +805,9 @@ Work completed and handed over to customer on 2026-08-15.`
   document.getElementById("policy-search").addEventListener("input", renderPolicy);
   document.getElementById("policy-category").addEventListener("change", renderPolicy);
 
-  // ==========================================
+  // ============================================================
   // SETTINGS
-  // ==========================================
+  // ============================================================
   async function loadSettings() {
     document.getElementById("status-backend").textContent = "Checking...";
     document.getElementById("status-policy").textContent = "Checking...";
@@ -490,6 +845,8 @@ Work completed and handed over to customer on 2026-08-15.`
   
   document.getElementById("btn-refresh-status").addEventListener("click", loadSettings);
 
-  // Load Initial View (Dashboard)
-  loadDashboard();
+  // ============================================================
+  // INITIAL VIEW — Default to Home
+  // ============================================================
+  switchView("view-home");
 });

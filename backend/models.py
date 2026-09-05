@@ -44,6 +44,15 @@ class DocumentInput(BaseModel):
     filename: Optional[str] = None
     content: str = Field(..., description="Raw text content extracted from the document")
 
+class UploadedFile(BaseModel):
+    filename: str
+    content_b64: str = Field(..., description="Base64 encoded file content")
+    document_type: str = Field(..., description="Type of document (e.g., 'claim_form', 'incident_description')")
+
+class ClaimUploadRequest(BaseModel):
+    claim_type: ClaimTypeEnum
+    files: List[UploadedFile]
+
 
 class ClaimSubmissionRequest(BaseModel):
     claim_id: Optional[str] = None

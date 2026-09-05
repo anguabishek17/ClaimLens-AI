@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClaimLens AI — Insurance Claims Evidence Review</title>
+  <meta name="description" content="ClaimLens AI is an intelligent motor insurance claim review platform powered by Gemini AI. Upload claim documents and get instant, policy-grounded decisions." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  
+
   <aside class="sidebar">
     <div class="brand">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -21,17 +22,441 @@
       ClaimLens AI
     </div>
     <ul class="nav-links">
-      <li class="nav-item active" data-target="view-dashboard">Dashboard</li>
-      <li class="nav-item" data-target="view-claims">Claims</li>
-      <li class="nav-item" data-target="view-evidence">Evidence</li>
-      <li class="nav-item" data-target="view-policy">Policy</li>
-      <li class="nav-item" data-target="view-settings">Settings</li>
+      <li class="nav-item active" data-target="view-home" id="nav-home">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </li>
+      <li class="nav-item" data-target="view-upload" id="nav-upload">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+        New Claim Review
+      </li>
+      <li class="nav-item" data-target="view-dashboard" id="nav-dashboard">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </li>
+      <li class="nav-item" data-target="view-claims" id="nav-claims">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Demo Claims
+      </li>
+      <li class="nav-item" data-target="view-evidence" id="nav-evidence">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Evidence
+      </li>
+      <li class="nav-item" data-target="view-policy" id="nav-policy">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Policy
+      </li>
+      <li class="nav-item" data-target="view-settings" id="nav-settings">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Settings
+      </li>
     </ul>
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-badge">Powered by Gemini AI</div>
+    </div>
   </aside>
 
   <main class="main">
+
+    <!-- ============================================================ -->
+    <!-- HOME / LANDING VIEW -->
+    <!-- ============================================================ -->
+    <div id="view-home" class="view">
+      <div class="hero-section">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          AI-Powered Claims Intelligence
+        </div>
+        <h1 class="hero-title">Review Insurance Claims<br><span class="hero-gradient">with Surgical Precision</span></h1>
+        <p class="hero-subtitle">ClaimLens AI analyzes motor insurance documents against policy rules in seconds. Upload claim files and get a grounded, AI-generated decision — approve, reject, or escalate.</p>
+        <div class="hero-cta-group">
+          <button class="btn btn-hero" id="btn-start-review">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+            Start Claim Review
+          </button>
+          <button class="btn btn-hero-secondary" id="btn-view-demo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            View Demo Claims
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">5+</div>
+            <div class="hero-stat-label">Policy Rules Checked</div>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">4</div>
+            <div class="hero-stat-label">Document Types Supported</div>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">AI</div>
+            <div class="hero-stat-label">Gemini-Powered Analysis</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="features-section">
+        <div class="features-header">
+          <h2 class="features-title">Everything you need to process claims faster</h2>
+          <p class="features-subtitle">A complete AI pipeline — from raw document upload to final recommendation.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+            </div>
+            <h3 class="feature-title">Multi-Document Upload</h3>
+            <p class="feature-desc">Upload Claim Forms, Incident Descriptions, FIRs, and Repair Estimates. Supports TXT, PDF, and image files in a single drag-and-drop interface.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/></svg>
+            </div>
+            <h3 class="feature-title">Deterministic Policy Checks</h3>
+            <p class="feature-desc">Every claim is checked against a structured policy rule engine — covering timely reporting, document completeness, and coverage eligibility.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3 class="feature-title">AI Contradiction Detection</h3>
+            <p class="feature-desc">Gemini AI cross-references dates, amounts, vehicle details, and damage descriptions across all uploaded documents to surface factual discrepancies.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 class="feature-title">Escalation Intelligence</h3>
+            <p class="feature-desc">When contradictions or high-risk signals are detected, ClaimLens automatically flags the claim for human review with a priority level and suggested action.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+            <h3 class="feature-title">Policy Clause Retrieval</h3>
+            <p class="feature-desc">Semantic search over the full policy knowledge base surfaces the exact clauses relevant to each claim, with reasoning grounded in policy text.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--rose">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <h3 class="feature-title">Structured Audit Trail</h3>
+            <p class="feature-desc">Every recommendation includes a complete breakdown — rule results, evidence findings, applicable clauses, and a human-readable summary for compliance.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-section">
+        <h2 class="features-title" style="text-align:center; margin-bottom: 12px;">How it works</h2>
+        <p class="features-subtitle" style="text-align:center; margin-bottom: 48px;">Three steps from raw documents to a final decision.</p>
+        <div class="workflow-steps">
+          <div class="workflow-step">
+            <div class="workflow-step-number">01</div>
+            <div class="workflow-step-content">
+              <h3>Upload Documents</h3>
+              <p>Drag-and-drop your claim form, FIR, incident description, and repair estimate. Supports multiple file formats.</p>
+            </div>
+          </div>
+          <div class="workflow-connector"></div>
+          <div class="workflow-step">
+            <div class="workflow-step-number">02</div>
+            <div class="workflow-step-content">
+              <h3>AI Analysis</h3>
+              <p>ClaimLens runs deterministic rules, semantic policy retrieval, and Gemini AI reasoning in a single pipeline.</p>
+            </div>
+          </div>
+          <div class="workflow-connector"></div>
+          <div class="workflow-step">
+            <div class="workflow-step-number">03</div>
+            <div class="workflow-step-content">
+              <h3>Get Decision</h3>
+              <p>Receive a structured result — APPROVE, REJECT, REQUEST INFORMATION, or ESCALATE — with full justification.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- UPLOAD VIEW -->
+    <!-- ============================================================ -->
+    <div id="view-upload" class="view hidden">
+      <header class="header">
+        <div>
+          <h1>New Claim Review</h1>
+          <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">Upload claim documents below. The AI will analyse them and return a structured decision.</p>
+        </div>
+      </header>
+
+      <div class="upload-layout">
+        <div class="upload-main">
+          <!-- Claim Type -->
+          <section class="card upload-card">
+            <h2>Claim Configuration</h2>
+            <div class="upload-config-grid">
+              <div class="form-group">
+                <label class="form-label" for="upload-claim-type">Claim Type <span class="required-star">*</span></label>
+                <select id="upload-claim-type" class="form-input form-select">
+                  <option value="ACCIDENT">Accident</option>
+                  <option value="THEFT">Theft</option>
+                  <option value="THIRD_PARTY">Third Party</option>
+                  <option value="NATURAL_CALAMITY">Natural Calamity</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <!-- Document Upload Zones -->
+          <section class="card upload-card">
+            <h2>Upload Documents</h2>
+            <p class="upload-instruction">Upload your claim documents. Claim Form and Incident Description are required. FIR and Repair Estimate are recommended.</p>
+
+            <div class="upload-zones-grid">
+              <!-- Claim Form -->
+              <div class="upload-zone" id="zone-claim-form" data-doc-type="claim_form" data-required="true">
+                <input type="file" id="file-claim-form" class="upload-file-input" accept=".txt,.pdf,.png,.jpg,.jpeg" />
+                <div class="upload-zone-content">
+                  <div class="upload-zone-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  </div>
+                  <div class="upload-zone-label">Claim Form <span class="required-star">*</span></div>
+                  <div class="upload-zone-hint">Click or drag to upload</div>
+                  <div class="upload-file-status" id="status-claim-form">No file selected</div>
+                </div>
+              </div>
+
+              <!-- Incident Description -->
+              <div class="upload-zone" id="zone-incident" data-doc-type="incident_description" data-required="true">
+                <input type="file" id="file-incident" class="upload-file-input" accept=".txt,.pdf,.png,.jpg,.jpeg" />
+                <div class="upload-zone-content">
+                  <div class="upload-zone-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                  </div>
+                  <div class="upload-zone-label">Incident Description <span class="required-star">*</span></div>
+                  <div class="upload-zone-hint">Click or drag to upload</div>
+                  <div class="upload-file-status" id="status-incident">No file selected</div>
+                </div>
+              </div>
+
+              <!-- FIR -->
+              <div class="upload-zone" id="zone-fir" data-doc-type="fir" data-required="false">
+                <input type="file" id="file-fir" class="upload-file-input" accept=".txt,.pdf,.png,.jpg,.jpeg" />
+                <div class="upload-zone-content">
+                  <div class="upload-zone-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <div class="upload-zone-label">FIR <span class="optional-tag">Optional</span></div>
+                  <div class="upload-zone-hint">Click or drag to upload</div>
+                  <div class="upload-file-status" id="status-fir">No file selected</div>
+                </div>
+              </div>
+
+              <!-- Repair Estimate -->
+              <div class="upload-zone" id="zone-repair" data-doc-type="repair_estimate" data-required="false">
+                <input type="file" id="file-repair" class="upload-file-input" accept=".txt,.pdf,.png,.jpg,.jpeg" />
+                <div class="upload-zone-content">
+                  <div class="upload-zone-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                  </div>
+                  <div class="upload-zone-label">Repair Estimate <span class="optional-tag">Optional</span></div>
+                  <div class="upload-zone-hint">Click or drag to upload</div>
+                  <div class="upload-file-status" id="status-repair">No file selected</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="upload-actions">
+            <button class="btn btn-secondary" id="btn-upload-cancel">Cancel</button>
+            <button class="btn btn-primary" id="btn-upload-submit" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+              Analyse Claim
+            </button>
+          </div>
+        </div>
+
+        <!-- Side Info Panel -->
+        <div class="upload-sidebar">
+          <div class="upload-info-card">
+            <div class="upload-info-title">Supported Formats</div>
+            <ul class="upload-info-list">
+              <li><span class="upload-info-bullet">•</span> Plain Text (.txt)</li>
+              <li><span class="upload-info-bullet">•</span> PDF (.pdf)</li>
+              <li><span class="upload-info-bullet">•</span> Images (.jpg, .png)</li>
+            </ul>
+          </div>
+          <div class="upload-info-card">
+            <div class="upload-info-title">What Gets Checked</div>
+            <ul class="upload-info-list">
+              <li><span class="upload-info-bullet">✓</span> Document completeness</li>
+              <li><span class="upload-info-bullet">✓</span> Timely reporting rules</li>
+              <li><span class="upload-info-bullet">✓</span> Cross-document contradictions</li>
+              <li><span class="upload-info-bullet">✓</span> Policy clause applicability</li>
+              <li><span class="upload-info-bullet">✓</span> Coverage eligibility</li>
+            </ul>
+          </div>
+          <div class="upload-info-card upload-info-card--accent">
+            <div class="upload-info-title">💡 Pro Tip</div>
+            <p style="font-size: 13px; line-height: 1.6; color: var(--text-muted);">For best results, upload the actual documents rather than summaries. The AI extracts key fields like dates, vehicle registration, and amounts automatically.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload Progress Overlay -->
+      <div id="upload-progress-overlay" class="upload-progress-overlay hidden">
+        <div class="upload-progress-card">
+          <div class="upload-progress-spinner"></div>
+          <div class="upload-progress-title">Analysing Claim Documents</div>
+          <div class="upload-progress-steps">
+            <div class="progress-step active" id="ps-1">
+              <div class="progress-step-dot"></div>
+              <div class="progress-step-text">Encoding documents...</div>
+            </div>
+            <div class="progress-step" id="ps-2">
+              <div class="progress-step-dot"></div>
+              <div class="progress-step-text">Running deterministic rules...</div>
+            </div>
+            <div class="progress-step" id="ps-3">
+              <div class="progress-step-dot"></div>
+              <div class="progress-step-text">Retrieving policy clauses...</div>
+            </div>
+            <div class="progress-step" id="ps-4">
+              <div class="progress-step-dot"></div>
+              <div class="progress-step-text">AI contradiction detection...</div>
+            </div>
+            <div class="progress-step" id="ps-5">
+              <div class="progress-step-dot"></div>
+              <div class="progress-step-text">Generating recommendation...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- RESULT VIEW -->
+    <!-- ============================================================ -->
+    <div id="view-result" class="view hidden">
+      <!-- Result Hero Banner -->
+      <div class="result-hero" id="result-hero">
+        <div class="result-hero-left">
+          <div class="result-claim-id" id="result-claim-id">—</div>
+          <div class="result-recommendation-label">Recommendation</div>
+          <div class="result-recommendation-text" id="result-recommendation-text">—</div>
+          <div class="result-summary-text" id="result-summary-text">—</div>
+        </div>
+        <div class="result-hero-right">
+          <div class="result-verdict-badge" id="result-verdict-badge">—</div>
+        </div>
+      </div>
+
+      <div class="result-body">
+        <!-- Left column -->
+        <div class="result-left-col">
+
+          <!-- Claim Summary -->
+          <section class="card result-card">
+            <h2>Claim Summary</h2>
+            <div class="overview-grid">
+              <div class="overview-item">
+                <span class="overview-label">Claim ID</span>
+                <span class="overview-value" id="r-claim-id">—</span>
+              </div>
+              <div class="overview-item">
+                <span class="overview-label">Recommendation</span>
+                <span class="overview-value" id="r-recommendation">—</span>
+              </div>
+              <div class="overview-item">
+                <span class="overview-label">Escalate to Human</span>
+                <span class="overview-value" id="r-escalate">—</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Document Status -->
+          <section class="card result-card">
+            <h2>Document Status</h2>
+            <div id="r-document-status" class="result-doc-status-list">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- Policy Checks -->
+          <section class="card result-card">
+            <h2>Policy Checks</h2>
+            <table class="policy-table" id="r-policy-table">
+              <thead>
+                <tr>
+                  <th>Rule</th>
+                  <th>Status</th>
+                  <th>Finding</th>
+                  <th>Clause</th>
+                </tr>
+              </thead>
+              <tbody id="r-policy-checks-body">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- Right column -->
+        <div class="result-right-col">
+
+          <!-- Contradictions -->
+          <section class="card result-card" id="r-contradictions-section">
+            <h2>Contradictions Detected</h2>
+            <div id="r-contradictions-list">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- Evidence Findings -->
+          <section class="card result-card">
+            <h2>Extracted Evidence Findings</h2>
+            <div id="r-evidence-findings">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- Applicable Clauses -->
+          <section class="card result-card">
+            <h2>Applicable Policy Clauses</h2>
+            <div id="r-applicable-clauses">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- Human Escalation -->
+          <section class="card result-card" id="r-escalation-section">
+            <h2>Human Escalation</h2>
+            <div id="r-escalation-details" class="result-escalation-box">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn btn-secondary" id="btn-result-new-review">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+          New Review
+        </button>
+        <button class="btn btn-primary" id="btn-result-dashboard">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Go to Dashboard
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
     <!-- DASHBOARD VIEW -->
-    <div id="view-dashboard" class="view">
+    <!-- ============================================================ -->
+    <div id="view-dashboard" class="view hidden">
       <header class="header">
         <h1>Dashboard</h1>
       </header>
@@ -74,7 +499,9 @@
       </section>
     </div>
 
-    <!-- CLAIMS VIEW (Existing) -->
+    <!-- ============================================================ -->
+    <!-- CLAIMS VIEW (Existing — DO NOT MODIFY LOGIC) -->
+    <!-- ============================================================ -->
     <div id="view-claims" class="view hidden">
       <header class="header">
         <h1>Claims Evidence Review</h1>
@@ -185,7 +612,9 @@
     
     </div> <!-- end view-claims -->
 
+    <!-- ============================================================ -->
     <!-- EVIDENCE VIEW -->
+    <!-- ============================================================ -->
     <div id="view-evidence" class="view hidden">
       <header class="header">
         <h1>Evidence Explorer</h1>
@@ -206,7 +635,9 @@
       </div>
     </div>
 
+    <!-- ============================================================ -->
     <!-- POLICY VIEW -->
+    <!-- ============================================================ -->
     <div id="view-policy" class="view hidden">
       <header class="header">
         <h1>Policy Knowledge Base</h1>
@@ -225,10 +656,12 @@
       </div>
     </div>
 
+    <!-- ============================================================ -->
     <!-- SETTINGS VIEW -->
+    <!-- ============================================================ -->
     <div id="view-settings" class="view hidden">
       <header class="header">
-        <h1>Settings & Diagnostics</h1>
+        <h1>Settings &amp; Diagnostics</h1>
         <button id="btn-refresh-status" class="btn">Refresh Status</button>
       </header>
       
@@ -287,7 +720,7 @@
 
     <div id="loading-overlay" class="loading-overlay hidden">
       <div class="spinner"></div>
-      <div>Running Deterministic Rules & AI Analysis...</div>
+      <div>Running Deterministic Rules &amp; AI Analysis...</div>
     </div>
   </main>
 

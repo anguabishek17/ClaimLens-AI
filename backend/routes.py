@@ -10,6 +10,7 @@ from backend.models import (
     HealthResponse,
     ClaimSubmissionRequest,
     ClaimReviewResult,
+    ClaimUploadRequest,
 )
 from backend.services.claim_analysis_service import ClaimAnalysisService
 from backend.services.gemini_service import GeminiService
@@ -60,6 +61,7 @@ async def health_check():
     Health check endpoint returning system status and project name.
     """
     # Quick check if policy is loaded
+    from pathlib import Path
     policy_loaded = (Path("data/policy/policy.json").exists())
     return HealthResponse(status="ok", project="ClaimLens AI")
 
@@ -200,6 +202,55 @@ async def review_claim(request: ClaimSubmissionRequest):
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Claim review failed: {str(e)}")
+
+@router.post("/review/upload", response_model=ClaimReviewResult)
+async def upload_and_review_claim(request: ClaimUploadRequest):
+    """
+    Accepts base64 encoded files, extracts text, and runs the claim analysis pipeline.
+    """
+    import base64
+    import uuid
+    from backend.services.document_ingestor import DocumentIngestor
+    
+    try:
+        ingestor = DocumentIngestor()
+        temp_claim_id = f"UP-{uuid.uuid4().hex[:6].upper()}"
+        
+        claim_form_text = ""
+        incident_description_text = ""
+        evidence_doc_text = ""
+        
+        for f in request.files:
+            content_bytes = base64.b64decode(f.content_b64)
+            result = ingestor.ingest_content(content=content_bytes, filename=f.filename, claim_id=temp_claim_id)
+            
+            if result.success and result.evidence:
+                extracted_text = "\n".join(s.text for s in result.evidence.sections)
+                
+                if f.document_type == "claim_form":
+                    claim_form_text += extracted_text + "\n"
+                elif f.document_type == "incident_description":
+                    incident_description_text += extracted_text + "\n"
+                elif f.document_type in ["fir", "repair_estimate"]:
+                    evidence_doc_text += extracted_text + "\n\n"
+                    
+        # Default missing docs to "Missing" instead of empty string if they are completely empty
+        # But the analysis service handles empty strings. Let's just pass what we extracted.
+        
+        submission_req = ClaimSubmissionRequest(
+            claim_id=temp_claim_id,
+            vehicle_type="CAR", # We can default to CAR or extract it later.
+            claim_type=request.claim_type,
+            claim_form_text=claim_form_text.strip() if claim_form_text else "[MISSING DOCUMENT]",
+            evidence_doc_text=evidence_doc_text.strip() if evidence_doc_text else "[MISSING DOCUMENT]",
+            incident_description_text=incident_description_text.strip() if incident_description_text else "[MISSING DOCUMENT]",
+        )
+        
+        analysis_result = claim_service.analyze_claim(submission_req)
+        return analysis_result
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload and review failed: {str(e)}")
 
 
 # ---------------------------------------------------------------------------
