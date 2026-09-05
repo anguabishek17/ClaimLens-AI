@@ -291,6 +291,34 @@ Work completed and handed over to customer on 2026-08-15.`
   });
 
   // ============================================================
+  // DEMO CARD QUICK LINKS (landing page)
+  // ============================================================
+  ["001", "002", "003"].forEach(claimId => {
+    const btn = document.getElementById(`btn-demo-clm${claimId}`);
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const select = document.getElementById("claim-select");
+        if (select) select.value = claimId;
+        switchView("view-claims");
+      });
+    }
+  });
+
+  // Final CTA button
+  const btnFinalCta = document.getElementById("btn-final-cta");
+  if (btnFinalCta) {
+    btnFinalCta.addEventListener("click", () => switchView("view-upload"));
+  }
+
+  // Footer navigation links
+  document.querySelectorAll(".lp-footer-link[data-nav]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-nav");
+      if (target) switchView(target);
+    });
+  });
+
+  // ============================================================
   // RESULT PAGE ACTION BUTTONS
   // ============================================================
   document.getElementById("btn-result-new-review").addEventListener("click", () => {

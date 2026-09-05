@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClaimLens AI — Insurance Claims Evidence Review</title>
-  <meta name="description" content="ClaimLens AI is an intelligent motor insurance claim review platform powered by Gemini AI. Upload claim documents and get instant, policy-grounded decisions." />
+  <meta name="description" content="ClaimLens AI is an evidence-driven motor insurance claim review platform. Upload claim documents and get a structured, policy-grounded review recommendation." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -51,132 +51,342 @@
         Settings
       </li>
     </ul>
-    <div class="sidebar-footer">
-      <div class="sidebar-footer-badge">Powered by Gemini AI</div>
-    </div>
+
   </aside>
 
   <main class="main">
 
     <!-- ============================================================ -->
-    <!-- HOME / LANDING VIEW -->
+    <!-- HOME / LANDING VIEW                                           -->
     <!-- ============================================================ -->
     <div id="view-home" class="view">
-      <div class="hero-section">
-        <div class="hero-badge">
-          <span class="hero-badge-dot"></span>
-          AI-Powered Claims Intelligence
-        </div>
-        <h1 class="hero-title">Review Insurance Claims<br><span class="hero-gradient">with Surgical Precision</span></h1>
-        <p class="hero-subtitle">ClaimLens AI analyzes motor insurance documents against policy rules in seconds. Upload claim files and get a grounded, AI-generated decision — approve, reject, or escalate.</p>
-        <div class="hero-cta-group">
-          <button class="btn btn-hero" id="btn-start-review">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-            Start Claim Review
-          </button>
-          <button class="btn btn-hero-secondary" id="btn-view-demo">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            View Demo Claims
-          </button>
-        </div>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <div class="hero-stat-value">5+</div>
-            <div class="hero-stat-label">Policy Rules Checked</div>
-          </div>
-          <div class="hero-stat-divider"></div>
-          <div class="hero-stat">
-            <div class="hero-stat-value">4</div>
-            <div class="hero-stat-label">Document Types Supported</div>
-          </div>
-          <div class="hero-stat-divider"></div>
-          <div class="hero-stat">
-            <div class="hero-stat-value">AI</div>
-            <div class="hero-stat-label">Gemini-Powered Analysis</div>
-          </div>
-        </div>
-      </div>
 
-      <div class="features-section">
-        <div class="features-header">
-          <h2 class="features-title">Everything you need to process claims faster</h2>
-          <p class="features-subtitle">A complete AI pipeline — from raw document upload to final recommendation.</p>
+      <!-- ======================== HERO ======================== -->
+      <section class="lp-hero">
+        <div class="lp-container lp-hero-grid">
+          <div class="lp-hero-content">
+            <div class="lp-eyebrow">INSURANCE CLAIMS INTELLIGENCE</div>
+            <h1 class="lp-hero-heading">Make Every Claim Review<br><span class="lp-heading-accent">Evidence-Driven.</span></h1>
+            <p class="lp-hero-body">ClaimLens AI helps investigators review motor insurance claims by analyzing submitted documents, checking policy rules, identifying missing evidence and contradictions, and producing a traceable review recommendation.</p>
+            <div class="lp-cta-group">
+              <button class="btn lp-btn-primary" id="btn-start-review">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+                Start a Claim Review
+              </button>
+              <button class="btn lp-btn-outline" id="btn-view-demo">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Explore Demo Claims
+              </button>
+            </div>
+          </div>
+          <div class="lp-hero-visual">
+            <div class="lp-product-preview">
+              <div class="lp-pp-header">
+                <span class="lp-pp-label">CLAIM REVIEW</span>
+                <span class="lp-pp-clm-id">CLM-003</span>
+              </div>
+              <div class="lp-pp-section">
+                <div class="lp-pp-section-title">Evidence Status</div>
+                <div class="lp-pp-row">
+                  <span class="lp-status-dot lp-dot-green"></span>
+                  <span>3 documents reviewed</span>
+                </div>
+              </div>
+              <div class="lp-pp-divider"></div>
+              <div class="lp-pp-section">
+                <div class="lp-pp-section-title">Policy Checks</div>
+                <div class="lp-pp-row">
+                  <span class="lp-pp-check lp-check-pass">&#10003;</span>
+                  <span>5 rules passed</span>
+                </div>
+                <div class="lp-pp-row lp-pp-row-mt">
+                  <span class="lp-pp-check lp-check-warn">&#9888;</span>
+                  <span>1 inconsistency detected</span>
+                </div>
+              </div>
+              <div class="lp-pp-divider"></div>
+              <div class="lp-pp-section">
+                <div class="lp-pp-section-title">Recommendation</div>
+                <div class="lp-pp-verdict lp-pp-verdict--escalate">ESCALATE</div>
+                <div class="lp-pp-verdict-sub">Human review required</div>
+              </div>
+              <div class="lp-pp-footer-label">Evidence-backed review</div>
+            </div>
+          </div>
         </div>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon feature-icon--blue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
-            </div>
-            <h3 class="feature-title">Multi-Document Upload</h3>
-            <p class="feature-desc">Upload Claim Forms, Incident Descriptions, FIRs, and Repair Estimates. Supports TXT, PDF, and image files in a single drag-and-drop interface.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon feature-icon--teal">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/></svg>
-            </div>
-            <h3 class="feature-title">Deterministic Policy Checks</h3>
-            <p class="feature-desc">Every claim is checked against a structured policy rule engine — covering timely reporting, document completeness, and coverage eligibility.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon feature-icon--purple">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </div>
-            <h3 class="feature-title">AI Contradiction Detection</h3>
-            <p class="feature-desc">Gemini AI cross-references dates, amounts, vehicle details, and damage descriptions across all uploaded documents to surface factual discrepancies.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon feature-icon--orange">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            </div>
-            <h3 class="feature-title">Escalation Intelligence</h3>
-            <p class="feature-desc">When contradictions or high-risk signals are detected, ClaimLens automatically flags the claim for human review with a priority level and suggested action.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon feature-icon--green">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-            </div>
-            <h3 class="feature-title">Policy Clause Retrieval</h3>
-            <p class="feature-desc">Semantic search over the full policy knowledge base surfaces the exact clauses relevant to each claim, with reasoning grounded in policy text.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon feature-icon--rose">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-            </div>
-            <h3 class="feature-title">Structured Audit Trail</h3>
-            <p class="feature-desc">Every recommendation includes a complete breakdown — rule results, evidence findings, applicable clauses, and a human-readable summary for compliance.</p>
-          </div>
-        </div>
-      </div>
+      </section>
 
-      <div class="workflow-section">
-        <h2 class="features-title" style="text-align:center; margin-bottom: 12px;">How it works</h2>
-        <p class="features-subtitle" style="text-align:center; margin-bottom: 48px;">Three steps from raw documents to a final decision.</p>
-        <div class="workflow-steps">
-          <div class="workflow-step">
-            <div class="workflow-step-number">01</div>
-            <div class="workflow-step-content">
-              <h3>Upload Documents</h3>
-              <p>Drag-and-drop your claim form, FIR, incident description, and repair estimate. Supports multiple file formats.</p>
+      <!-- ===================== TRUST STRIP =================== -->
+      <section class="lp-trust-strip">
+        <div class="lp-container lp-trust-inner">
+          <div class="lp-trust-item">
+            <div class="lp-trust-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
             </div>
+            <div class="lp-trust-title">DOCUMENT REVIEW</div>
+            <div class="lp-trust-desc">Analyze submitted claim evidence</div>
           </div>
-          <div class="workflow-connector"></div>
-          <div class="workflow-step">
-            <div class="workflow-step-number">02</div>
-            <div class="workflow-step-content">
-              <h3>AI Analysis</h3>
-              <p>ClaimLens runs deterministic rules, semantic policy retrieval, and Gemini AI reasoning in a single pipeline.</p>
+          <div class="lp-trust-divider"></div>
+          <div class="lp-trust-item">
+            <div class="lp-trust-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
+            <div class="lp-trust-title">POLICY CHECKING</div>
+            <div class="lp-trust-desc">Match findings with policy clauses</div>
           </div>
-          <div class="workflow-connector"></div>
-          <div class="workflow-step">
-            <div class="workflow-step-number">03</div>
-            <div class="workflow-step-content">
-              <h3>Get Decision</h3>
-              <p>Receive a structured result — APPROVE, REJECT, REQUEST INFORMATION, or ESCALATE — with full justification.</p>
+          <div class="lp-trust-divider"></div>
+          <div class="lp-trust-item">
+            <div class="lp-trust-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="lp-trust-title">CONTRADICTION DETECTION</div>
+            <div class="lp-trust-desc">Surface conflicting information</div>
+          </div>
+          <div class="lp-trust-divider"></div>
+          <div class="lp-trust-item">
+            <div class="lp-trust-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="lp-trust-title">HUMAN ESCALATION</div>
+            <div class="lp-trust-desc">Flag uncertain cases for investigation</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================== PROBLEM → SOLUTION =============== -->
+      <section class="lp-section lp-problem-section">
+        <div class="lp-container">
+          <div class="lp-section-tag">THE PROBLEM</div>
+          <h2 class="lp-section-heading">From scattered documents to a structured review.</h2>
+          <div class="lp-problem-grid">
+            <div class="lp-problem-col">
+              <div class="lp-col-label">THE CHALLENGE</div>
+              <p class="lp-problem-intro">Insurance claim review often requires investigators to compare information across:</p>
+              <ul class="lp-problem-list">
+                <li>Claim forms</li>
+                <li>FIRs</li>
+                <li>Repair estimates</li>
+                <li>Incident descriptions</li>
+                <li>Policy clauses</li>
+              </ul>
+            </div>
+            <div class="lp-solution-col">
+              <div class="lp-col-label">THE CLAIMLENS APPROACH</div>
+              <div class="lp-flow">
+                <div class="lp-flow-node">Documents</div>
+                <div class="lp-flow-arrow">&#8595;</div>
+                <div class="lp-flow-node">Evidence Extraction</div>
+                <div class="lp-flow-arrow">&#8595;</div>
+                <div class="lp-flow-node">Policy Rules</div>
+                <div class="lp-flow-arrow">&#8595;</div>
+                <div class="lp-flow-node">Cross-Document Checks</div>
+                <div class="lp-flow-arrow">&#8595;</div>
+                <div class="lp-flow-node">Reasoning</div>
+                <div class="lp-flow-arrow">&#8595;</div>
+                <div class="lp-flow-node lp-flow-node--accent">Investigator Recommendation</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- ==================== HOW IT WORKS ==================== -->
+      <section class="lp-section lp-how-section">
+        <div class="lp-container">
+          <div class="lp-section-center">
+            <h2 class="lp-section-heading">How ClaimLens AI Works</h2>
+          </div>
+          <div class="lp-how-grid">
+            <div class="lp-how-card">
+              <div class="lp-how-num">01</div>
+              <div class="lp-how-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+              </div>
+              <h3 class="lp-how-title">Upload Evidence</h3>
+              <p class="lp-how-desc">Upload the claim form, incident description, FIR or repair estimate.</p>
+            </div>
+            <div class="lp-how-card">
+              <div class="lp-how-num">02</div>
+              <div class="lp-how-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </div>
+              <h3 class="lp-how-title">Analyze Evidence</h3>
+              <p class="lp-how-desc">Extract important information from the submitted documents.</p>
+            </div>
+            <div class="lp-how-card">
+              <div class="lp-how-num">03</div>
+              <div class="lp-how-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 class="lp-how-title">Check Policy</h3>
+              <p class="lp-how-desc">Compare evidence against deterministic policy rules and relevant clauses.</p>
+            </div>
+            <div class="lp-how-card">
+              <div class="lp-how-num">04</div>
+              <div class="lp-how-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <h3 class="lp-how-title">Review Recommendation</h3>
+              <p class="lp-how-desc">Receive an evidence-backed recommendation with reasons and escalation when necessary.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== CORE CAPABILITIES ================= -->
+      <section class="lp-section lp-capabilities-section">
+        <div class="lp-container">
+          <h2 class="lp-section-heading">Built for evidence-first claim investigation.</h2>
+          <div class="lp-cap-grid">
+            <div class="lp-cap-card">
+              <div class="lp-cap-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <h3 class="lp-cap-title">Evidence Extraction</h3>
+              <p class="lp-cap-desc">Extract dates, vehicle details, claim amounts and other relevant information.</p>
+            </div>
+            <div class="lp-cap-card">
+              <div class="lp-cap-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 class="lp-cap-title">Policy Grounding</h3>
+              <p class="lp-cap-desc">Connect findings to the applicable policy clauses.</p>
+            </div>
+            <div class="lp-cap-card">
+              <div class="lp-cap-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <h3 class="lp-cap-title">Cross-Document Consistency</h3>
+              <p class="lp-cap-desc">Detect mismatched dates, vehicle details and other contradictions.</p>
+            </div>
+            <div class="lp-cap-card">
+              <div class="lp-cap-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
+              </div>
+              <h3 class="lp-cap-title">Investigator Escalation</h3>
+              <p class="lp-cap-desc">Surface uncertain or conflicting cases for human review.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== DECISION STATES =================== -->
+      <section class="lp-section lp-decisions-section">
+        <div class="lp-container">
+          <div class="lp-section-center">
+            <h2 class="lp-section-heading">Not every claim should be treated the same.</h2>
+          </div>
+          <div class="lp-decisions-grid">
+            <div class="lp-decision-card lp-decision--approve">
+              <div class="lp-decision-badge">APPROVE</div>
+              <p class="lp-decision-desc">Evidence supports the claim and required checks pass.</p>
+            </div>
+            <div class="lp-decision-card lp-decision--request">
+              <div class="lp-decision-badge">REQUEST INFORMATION</div>
+              <p class="lp-decision-desc">Important evidence is missing before a reliable review can continue.</p>
+            </div>
+            <div class="lp-decision-card lp-decision--escalate">
+              <div class="lp-decision-badge">ESCALATE</div>
+              <p class="lp-decision-desc">Conflicting or uncertain evidence requires human investigation.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================ EVIDENCE TRACEABILITY ================ -->
+      <section class="lp-section lp-trace-section">
+        <div class="lp-container">
+          <div class="lp-section-center">
+            <h2 class="lp-section-heading">Every finding should be explainable.</h2>
+            <p class="lp-section-sub">ClaimLens AI connects review findings to the evidence and policy rules used to reach them.</p>
+          </div>
+          <div class="lp-trace-wrap">
+            <div class="lp-trace-card">
+              <div class="lp-trace-col">
+                <div class="lp-trace-label">FINDING</div>
+                <div class="lp-trace-value">Claim reported within the permitted reporting window.</div>
+              </div>
+              <div class="lp-trace-sep"></div>
+              <div class="lp-trace-col">
+                <div class="lp-trace-label">SOURCE</div>
+                <div class="lp-trace-value">Claim Form<br><span class="lp-trace-meta">Page 1</span></div>
+              </div>
+              <div class="lp-trace-sep"></div>
+              <div class="lp-trace-col">
+                <div class="lp-trace-label">POLICY</div>
+                <div class="lp-trace-value">Clause C-08<br><span class="lp-trace-meta">Claim Reporting Window</span></div>
+              </div>
+              <div class="lp-trace-sep"></div>
+              <div class="lp-trace-col">
+                <div class="lp-trace-label">STATUS</div>
+                <div class="lp-trace-pass">PASS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================== DEMO SECTION ===================== -->
+      <section class="lp-section lp-demo-section">
+        <div class="lp-container">
+          <div class="lp-section-center">
+            <h2 class="lp-section-heading">See ClaimLens AI in action.</h2>
+          </div>
+          <div class="lp-demo-grid">
+            <div class="lp-demo-card">
+              <div class="lp-demo-clm">CLM-001</div>
+              <div class="lp-demo-type">NORMAL CLAIM</div>
+              <p class="lp-demo-desc">Evidence is complete and consistent.</p>
+              <div class="lp-demo-verdict lp-dv--approve">&#8594; APPROVE</div>
+              <button class="btn lp-btn-demo" id="btn-demo-clm001">Review Case</button>
+            </div>
+            <div class="lp-demo-card">
+              <div class="lp-demo-clm">CLM-002</div>
+              <div class="lp-demo-type">MISSING EVIDENCE</div>
+              <p class="lp-demo-desc">Required documents are unavailable.</p>
+              <div class="lp-demo-verdict lp-dv--request">&#8594; REQUEST INFORMATION</div>
+              <button class="btn lp-btn-demo" id="btn-demo-clm002">Review Case</button>
+            </div>
+            <div class="lp-demo-card">
+              <div class="lp-demo-clm">CLM-003</div>
+              <div class="lp-demo-type">DIFFICULT CLAIM</div>
+              <p class="lp-demo-desc">Conflicting evidence requires investigation.</p>
+              <div class="lp-demo-verdict lp-dv--escalate">&#8594; ESCALATE</div>
+              <button class="btn lp-btn-demo" id="btn-demo-clm003">Review Case</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================== FINAL CTA ======================== -->
+      <section class="lp-cta-section">
+        <div class="lp-container lp-cta-inner">
+          <h2 class="lp-cta-heading">Ready to review a claim?</h2>
+          <p class="lp-cta-body">Upload the evidence. Let ClaimLens structure the review.</p>
+          <button class="btn lp-btn-primary lp-btn-lg" id="btn-final-cta">Start Claim Review</button>
+        </div>
+      </section>
+
+      <!-- ====================== FOOTER ======================== -->
+      <footer class="lp-footer">
+        <div class="lp-container lp-footer-inner">
+          <div class="lp-footer-brand">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/></svg>
+            <div>
+              <div class="lp-footer-name">ClaimLens AI</div>
+              <div class="lp-footer-tagline">Insurance Claims Evidence Review Assistant</div>
+            </div>
+          </div>
+          <nav class="lp-footer-nav">
+            <button class="lp-footer-link" data-nav="view-home">Home</button>
+            <button class="lp-footer-link" data-nav="view-upload">New Claim Review</button>
+            <button class="lp-footer-link" data-nav="view-claims">Demo Claims</button>
+            <button class="lp-footer-link" data-nav="view-evidence">Evidence</button>
+            <button class="lp-footer-link" data-nav="view-policy">Policy</button>
+          </nav>
+        </div>
+      </footer>
+
     </div>
 
     <!-- ============================================================ -->
