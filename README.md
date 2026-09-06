@@ -252,7 +252,6 @@ Demo Video:
 - **Project**: ClaimLens AI
 - **Track**: PS02
 - **Domain**: Insurance / InsurTech
-- **Team**: [ADD TEAM MEMBERS]
 
 ## 24. License
 This project is built for the hackathon and is provided as-is. See the LICENSE file for details if available.
